@@ -1,6 +1,6 @@
 # openCV 
 
-[첫 번째][https://github.com/afikanyati/cadenCV]
+[첫 번째](https://github.com/afikanyati/cadenCV)
 [두 번째] : (https://github.com/jsford/SightReader) <br>
 [세 번째] :(https://youtu.be/mMxHpdstFMg) <br>
 [네 번째] :(https://blog.naver.com/monkey5255/220662430284) <br>
