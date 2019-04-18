@@ -1,7 +1,7 @@
 1. audio to midi & midi to sheetmusic
 
 audio(mp3,wav..)->midi /c++
-<https://github.com/cataska/scorealign>
+[1](https://github.com/cataska/scorealign)
 
 piano audio->midi /c++
 https://github.com/BShakhovsky/PianoAudioToMidi
