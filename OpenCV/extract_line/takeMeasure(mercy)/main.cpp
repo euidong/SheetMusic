@@ -10,28 +10,30 @@ using namespace std;
 
 int main()
 {
-	Mat origin;
-	Mat img;
-	origin = imread("threeBear.jpg", IMREAD_GRAYSCALE);
-	threshold(origin, img, 127, 255, THRESH_BINARY);
-
-	namedWindow("origin", WINDOW_AUTOSIZE);
+	Mat origin; //원본이미지
+	Mat img; //이진화할 이미지
+	origin = imread("threeBear.jpg", IMREAD_GRAYSCALE); //이미지 불러오기
+	threshold(origin, img, 127, 255, THRESH_BINARY); // 이미지 이진화
+	
+	// 원본이미지 띄우기
+	namedWindow("origin", WINDOW_AUTOSIZE); 
 	imshow("origin", origin);
 	
-	int line[5] = { -1,-1,-1,-1,-1 };
-	int lineSize[5] = { 0,0,0,0,0 };
+
+	int line[5] = { -1,-1,-1,-1,-1 }; // 오선의 y값을 받을 변수. 0 = 맨 윗 줄, 4 = 맨 아래 줄
+	int lineSize[5] = { 0,0,0,0,0 }; // 오선의 굵기를 받을 변수
 
 	int count; // 해당 행의 검은색 픽셀의 수
 	int k; // k번째 라인
 	int l = 0; // l번째 소절
 	Mat measure[3]; // 소절 3개
-	int gap;
+	int gap; // 오선간 거리
 	for (int i = 0; i < img.rows; i++)
 	{
 		count = 0;
 		for (int j = 0; j < img.cols; j++)
 		{
-			if (!img.at<uchar>(i, j))
+			if (!img.at<uchar>(i, j)) // 검은색인 경우 count++
 			{
 				count++;
 			}
