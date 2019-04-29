@@ -51,16 +51,16 @@ int main()
 				k++;
 			}
 
-			if (k == 0)
+			if (k == 0)//첫 번째 줄
 			{
 				line[0] = i;
 				lineSize[0]++;
 			}
-			else if (line[k - 1] + lineSize[k - 1] == i)
+			else if (line[k - 1] + lineSize[k - 1] == i) // 줄의 굵기가 1이상인 경우
 			{
 				lineSize[k - 1]++;
 			}
-			else
+			else // 첫 줄 외의 값 넣기
 			{
 				line[k] = i;
 				lineSize[k]++;
@@ -76,13 +76,14 @@ int main()
 			{
 				cout << p + 1 << "번째 줄 좌표 : " << line[p] << endl << p + 1 << "번째 줄의 굵기 : " << lineSize[p] << endl << endl;
 			}
-			for (int m = 0; m < 5; m++)
+			for (int m = 0; m < 5; m++) // 다음 소절을 받기 위해 다시 초기화
 			{
 				line[m] = -1;
 				lineSize[m] = 0;
 			}
 		}
 	}
+
 	imwrite("mesure1.jpg", measure[0]);
 	imwrite("mesure2.jpg", measure[1]);
 	imwrite("mesure3.jpg", measure[2]);
