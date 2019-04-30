@@ -20,7 +20,8 @@ void CutMeasures(Mat img, Mat* measure, int size);
 
 // 라인의 y좌표를 받아옵니다.
 void GetLineY(Mat lineGetter, int* line, int* lineSize);
-
+// 음표의 중앙 좌표 생성
+void GenerateNotePoints(const Mat& dot_image, vector<Point2d>& out_note_points);
 // arr의 극댓값을 out_points vector에 담는 함수
 void SetLocalMaxPoints(const int* arr, const int arr_size, std::vector<int>& out_points);
 // image x 범위 내에서 black 극댓값 하나 get
@@ -64,8 +65,6 @@ int main()
 
 	GetLineY(lineGetter, line, lineSize);
 
-
-
 	// 음표 외에 모든 데이터 제거
 	for (int num = 0; num < 3; num++)
 	{
@@ -76,59 +75,15 @@ int main()
 	imwrite("measure2-2.jpg", measure[1]);
 	imwrite("measure3-2.jpg", measure[2]);
 
-	
+	vector<Point2d> note_points;    // 최종 음표 좌표값 배열
 
-	/* 음표의 좌표 값 받아오기 */
-	Mat music_image;
-	int* num_black_x;    // x축에서 검은 픽셀의 수 동적 배열
-	vector<int> points_x;	// x축에서 음표 있는 좌표(중앙 지점)
-	vector<Point2d> note_points;    // 최종 음표 좌표(중앙 지점)
-
-	music_image = imread("measure3-2.jpg", IMREAD_REDUCED_GRAYSCALE_2);
-	// 2bit 흑백 이미지 읽어오기
-
-	num_black_x = new int[music_image.cols];
-
-	// 검은 pixel count
-	int line_sum = 0;
-	cout << "x축 분포" << endl;
-	line_sum = 0;
-	for (int i = 0; i < music_image.cols; i++) {
-		for (int j = 0; j < music_image.rows; j++) {
-			if (music_image.at<uchar>(j, i) < 125) {
-				line_sum += 1;
-			}
-		}
-		/*if (line_sum != 0) {
-			std::cout << i << " " << line_sum << std::endl;
-		}*/
-		num_black_x[i] = line_sum;
-		line_sum = 0;
-	}
-
-
-	SetLocalMaxPoints(num_black_x, music_image.cols, points_x);
-	cout << "count: " << points_x.size() << endl;
-
-	// 최종 음표 좌표 구하기
-	int y;
-	int x;
-	for (int i = 0; i < points_x.size(); i++) {
-		x = points_x[i];
-		// x에 대응하는 y좌표 x +- 1로 crop해서 극댓값으로 구하기
-		y = GetLocalMaxBlackPoint(music_image, x - 1, x + 1);
-		note_points.push_back(Point(x, y));
-	}
-
+	// 음표 좌표 값 note_points에 저장
+	GenerateNotePoints(measure[2], note_points);
+	// 찾은 좌표 콘솔 출력
 	for (int i = 0; i < note_points.size(); i++) {
 		std::cout << note_points[i].x << ", " << note_points[i].y << std::endl;
 	}
 	std::cout << "count: " << note_points.size() << std::endl;
-
-
-	delete[] num_black_x;
-
-
 
 
 	// 계이름 파일로 반환
@@ -204,7 +159,48 @@ int GetSound(int y, int line[], int lineSize[])
 	}
 }
 
-// 음표 최댓값 구하기
+
+// 음표의 중앙 좌표 값을 out_note_points 레퍼런스에 저장
+void GenerateNotePoints(const Mat & dot_image, vector<Point2d>& out_note_points)
+{
+	int* num_black_x;    // x축에서 검은 픽셀의 수 동적 배열
+	vector<int> points_x;	// x축에서 음표 있는 좌표(중앙 지점)
+
+	num_black_x = new int[dot_image.cols];
+
+	// 검은 pixel count
+	int line_sum = 0;
+	cout << "x축 분포" << endl;
+	line_sum = 0;
+	for (int i = 0; i < dot_image.cols; i++) {
+		for (int j = 0; j < dot_image.rows; j++) {
+			if (dot_image.at<uchar>(j, i) < 125) {
+				line_sum += 1;
+			}
+		}
+		num_black_x[i] = line_sum;
+		line_sum = 0;
+	}
+
+	// 검은색 분포 중 극댓값(주변 비해 많이 분포하는 값) 가지는 x를 배열에 저장
+	SetLocalMaxPoints(num_black_x, dot_image.cols, points_x);
+	cout << "count: " << points_x.size() << endl;
+
+	// 최종 음표 좌표 구하기
+	int y;
+	int x;
+	for (int i = 0; i < points_x.size(); i++) {
+		x = points_x[i];
+		// x에 대응하는 y좌표 구하기
+		// 찾은 x 주변 위치(+-1) 에서만 극댓값 찾음
+		y = GetLocalMaxBlackPoint(dot_image, x - 1, x + 1);
+		out_note_points.push_back(Point(x, y));
+	}
+
+	delete[] num_black_x;
+}
+
+// 배열에서 극댓값 가지게 하는 변수를 out_points에 저장
 void SetLocalMaxPoints(const int * arr, const int arr_size, std::vector<int>& out_points)
 {
 	bool is_rising = false;
@@ -237,6 +233,8 @@ void SetLocalMaxPoints(const int * arr, const int arr_size, std::vector<int>& ou
 	}
 }
 
+// start, end x 범위 내에서 y값당 검은 픽셀 개수 세기
+// 검은 픽셀 수가 극댓값 갖게 하는 y 반환.
 int GetLocalMaxBlackPoint(const Mat & image, const int start_x, const int end_x)
 {
 	int* num_black;    // y축에서 검은 픽셀의 수 동적 배열

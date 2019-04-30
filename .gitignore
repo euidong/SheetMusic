@@ -1,0 +1,6 @@
+*.exe
+.vs/
+SheetToMusic/.vs/
+SheetToMusic/x64/
+SheetToMusic/SheetToMusic/x64
+SheetToMusic/SheetToMusic/.vs
