@@ -1,6 +1,6 @@
 from rectangle import Rectangle
 
-note_step = 0.0625
+note_step = 0.0625    # 오선지에서 한 칸 높이의 비율
 
 note_defs = {
      -4 : ("g5", 79),
@@ -29,18 +29,25 @@ note_defs = {
 
 class Note(object):
     def __init__(self, rec, sym, staff_rec, sharp_notes = [], flat_notes = []):
-        self.rec = rec
-        self.sym = sym
+        '''
+        심볼과 오선 Rectangle 받아 음정 계산하는 class
 
-        middle = rec.y + (rec.h / 2.0)
-        height = (middle - staff_rec.y) / staff_rec.h
-        note_def = note_defs[int(height/note_step + 0.5)]
-        self.note = note_def[0]
-        self.pitch = note_def[1]
-        if any(n for n in sharp_notes if n.note[0] == self.note[0]):
+        @param rec    Rectangle 심볼의 위치정보 담고 있는 객체
+        @param sym    string 심볼 이름 
+        @param staff_rec    Rectangle 오선 하나 위치 저장한 객체
+        '''
+        self.rec = rec    
+        self.sym = sym    
+
+        middle = rec.y + (rec.h / 2.0)    # 심볼의 y 중점 좌표
+        height = (middle - staff_rec.y) / staff_rec.h    # 오선 높이에서 y중점 위치의 비율(내분점 개념?)
+        note_def = note_defs[int(height/note_step + 0.5)]    # 몇 번째 칸/줄인지 계산하고, 음 높이로 변환
+        self.note = note_def[0]    # 음정 string
+        self.pitch = note_def[1]   # 음정 midi에 들어가는 int
+        if any(n for n in sharp_notes if n.note[0] == self.note[0]):   # 현재 음에 샾이 붙었는지 확인
             self.note += "#"
             self.pitch += 1
-        if any(n for n in flat_notes if n.note[0] == self.note[0]):
+        if any(n for n in flat_notes if n.note[0] == self.note[0]):    # 현재 음에 플랫 붙었는지 확인
             self.note += "b"
             self.pitch -= 1
 

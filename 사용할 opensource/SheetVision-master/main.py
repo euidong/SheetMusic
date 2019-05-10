@@ -170,6 +170,7 @@ if __name__ == "__main__":
     cv2.imwrite('quarter_recs_img.png', quarter_recs_img)
     open_file('quarter_recs_img.png')
 
+    # 뚫린 점(2박) half_recs(Rectangle list)로 저장
     print("Matching half image...")
     half_recs = locate_images(img_gray, half_imgs, half_lower, half_upper, half_thresh)
 
@@ -181,6 +182,7 @@ if __name__ == "__main__":
     cv2.imwrite('half_recs_img.png', half_recs_img)
     open_file('half_recs_img.png')
 
+    # 온음(4박) whole_recs(Rectangle list)로 저장
     print("Matching whole image...")
     whole_recs = locate_images(img_gray, whole_imgs, whole_lower, whole_upper, whole_thresh)
 
