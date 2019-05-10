@@ -54,6 +54,9 @@ whole_lower, whole_upper, whole_thresh = 50, 150, 0.70
 
 
 def locate_images(img, templates, start, stop, threshold):
+    '''
+    이미지에서 템플릿과 일치하는 부분의 rectangle 객체 반환
+    '''
     locations, scale = fit(img, templates, start, stop, threshold)
     img_locations = []
     for i in range(len(templates)):
@@ -96,9 +99,12 @@ if __name__ == "__main__":
     ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)    # 이미지 흑백으로 이진화해서 img_gray에 저장
     img_width, img_height = img_gray.shape[::-1]    # 이미지 너비, 높이 정보
 
+    # 이미지에서 오선지 좌표 받기
     print("Matching staff image...")
     staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh)
 
+    # 검출한 여러 크기의 rectangle 중에서 빈도가 가장 많은 rect로 필터링.
+    # 사이즈 같은 rect만 남음
     print("Filtering weak staff matches...")
     staff_recs = [j for i in staff_recs for j in i]
     heights = [r.y for r in staff_recs] + [0]

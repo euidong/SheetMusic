@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def fit(img, templates, start_percent, stop_percent, threshold):
+    '''
+    이미지에서 템플릿과 일치하는 위치와, 사이즈 몇 배 차이나는지 반환
+    '''
     img_width, img_height = img.shape[::-1]
     best_location_count = -1
     best_locations = []
