@@ -2,6 +2,12 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
+#입력된 확대축소범위에 따라 종류별 2~3개 정도의 template을
+# realsheet와 비교하면서 확대비에 따른 비교일치 수치가 임계값을 넘는 위치와 개수를 location에 저장
+# 확대비 하나 당 얼마나 비슷한지 개수 그래프로 보여주고
+# best_location(max)는 확대비 하나 돌릴 때마다 가장 많이 같을 경우
+# 저장됨
+# 결국 가장 많이 비슷한 확대비와 sheet내 비슷한 위치리스트가 return
 def fit(img, templates, start_percent, stop_percent, threshold):
     img_width, img_height = img.shape[::-1]
     best_location_count = -1
