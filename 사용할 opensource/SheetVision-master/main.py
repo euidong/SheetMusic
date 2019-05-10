@@ -9,34 +9,41 @@ from note import Note
 from random import randint
 from midiutil.MidiFile3 import MIDIFile
 
+# 오선지 템플릿 이미지 경로
 staff_files = [
     "resources/template/staff2.png", 
     "resources/template/staff.png"]
+# 까만 점(1박자 음표) 템플릿 이미지 경로
 quarter_files = [
     "resources/template/quarter.png", 
     "resources/template/solid-note.png"]
+# 샾(반음올림) 기호 템플릿 이미지 경로
 sharp_files = [
     "resources/template/sharp.png"]
+# 플랫(반음내림) 기호 템플릿 이미지 경로
 flat_files = [
     "resources/template/flat-line.png", 
     "resources/template/flat-space.png" ]
+# 구멍 뚫린 점(2박자) 기호 템플릿 이미지 경로
 half_files = [
     "resources/template/half-space.png", 
     "resources/template/half-note-line.png",
     "resources/template/half-line.png", 
     "resources/template/half-note-space.png"]
+# 온음 기호(4박자) 기호 템플릿 이미지 경로
 whole_files = [
     "resources/template/whole-space.png", 
     "resources/template/whole-note-line.png",
     "resources/template/whole-line.png", 
     "resources/template/whole-note-space.png"]
 
-staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]
-quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
-sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files]
-flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
-half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]
-whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
+# opencv 이미지 객체
+staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]    # 오선지
+quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]    # 까만 점(1박자)
+sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files]    # 샾(반음올림)
+flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]    # 플랫(반음내림)
+half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]    # 구멍 뚫린 점(2박자)
+whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]    # 온음
 
 staff_lower, staff_upper, staff_thresh = 50, 150, 0.77
 sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.70
@@ -81,12 +88,13 @@ def open_file(path):
     subprocess.run([cmd, path])
 
 if __name__ == "__main__":
-    img_file = sys.argv[1:][0]
-    img = cv2.imread(img_file, 0)
-    img_gray = img#cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = cv2.cvtColor(img_gray,cv2.COLOR_GRAY2RGB)
-    ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
-    img_width, img_height = img_gray.shape[::-1]
+    # 파라미터에서 악보 이미지 불러와서 opencv 객체로 저장.
+    img_file = sys.argv[1:][0]    # 분석할 악보 이미지 경로
+    img = cv2.imread(img_file, 0)    # 분석할 이미지
+    img_gray = img#cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)    # 얜 의미 없는듯
+    img = cv2.cvtColor(img_gray,cv2.COLOR_GRAY2RGB)    # 흑백 이미지로 변경
+    ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)    # 이미지 흑백으로 이진화해서 img_gray에 저장
+    img_width, img_height = img_gray.shape[::-1]    # 이미지 너비, 높이 정보
 
     print("Matching staff image...")
     staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh)
