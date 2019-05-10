@@ -67,6 +67,9 @@ def locate_images(img, templates, start, stop, threshold):
     return img_locations
 
 def merge_recs(recs, threshold):
+    '''
+    recs Rectangle 리스트에서 겹치는 사각형들을 하나의 사각형으로 만들고, 합친 사각형 리스트를 반환
+    '''
     filtered_recs = []
     while len(recs) > 0:
         r = recs.pop(0)
@@ -76,6 +79,7 @@ def merge_recs(recs, threshold):
             merged = False
             i = 0
             for _ in range(len(recs)):
+                # 사각형들의 겹치는 부분이 임계값 이상이면 합침
                 if r.overlap(recs[i]) > threshold or recs[i].overlap(r) > threshold:
                     r = r.merge(recs.pop(i))
                     merged = True
@@ -99,7 +103,7 @@ if __name__ == "__main__":
     ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)    # 이미지 흑백으로 이진화해서 img_gray에 저장
     img_width, img_height = img_gray.shape[::-1]    # 이미지 너비, 높이 정보
 
-    # 이미지에서 오선지 좌표 받기
+    # 이미지에서 오선지 템플릿과 일치하는 부분을 Rectangle 객체 리스트로 저장.
     print("Matching staff image...")
     staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh)
 
@@ -108,18 +112,20 @@ if __name__ == "__main__":
     print("Filtering weak staff matches...")
     staff_recs = [j for i in staff_recs for j in i]
     heights = [r.y for r in staff_recs] + [0]
-    histo = [heights.count(i) for i in range(0, max(heights) + 1)]
+    histo = [heights.count(i) for i in range(0, max(heights) + 1)]    # 여러 rect의 heights 분포를 저장한 히스토그램
     avg = np.mean(list(set(histo)))
     staff_recs = [r for r in staff_recs if histo[r.y] > avg]
 
+    # 인접한 사각형들을 합쳐서 긴 사각형으로 만듦
     print("Merging staff image results...")
     staff_recs = merge_recs(staff_recs, 0.01)
     staff_recs_img = img.copy()
     for r in staff_recs:
         r.draw(staff_recs_img, (0, 0, 255), 2)
     cv2.imwrite('staff_recs_img.png', staff_recs_img)
-    open_file('staff_recs_img.png')
+    open_file('staff_recs_img.png')    # merge 결과
 
+    # 오선지 있는 y좌표 부분을 사각형 staff_boxes으로 저장
     print("Discovering staff locations...")
     staff_boxes = merge_recs([Rectangle(0, r.y, img_width, r.h) for r in staff_recs], 0.01)
     staff_boxes_img = img.copy()
@@ -128,6 +134,7 @@ if __name__ == "__main__":
     cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
     open_file('staff_boxes_img.png')
     
+    # 샾 있는 부분 sharp_recs(Rectangle list)로 저장
     print("Matching sharp image...")
     sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
 
@@ -139,6 +146,7 @@ if __name__ == "__main__":
     cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
     open_file('sharp_recs_img.png')
 
+    # 플랫 있는 부분 flat_recs(Rectangle list)로 저장
     print("Matching flat image...")
     flat_recs = locate_images(img_gray, flat_imgs, flat_lower, flat_upper, flat_thresh)
 
@@ -150,6 +158,7 @@ if __name__ == "__main__":
     cv2.imwrite('flat_recs_img.png', flat_recs_img)
     open_file('flat_recs_img.png')
 
+    # 까만 점 quater_recs(Rectangle list)로 저장
     print("Matching quarter image...")
     quarter_recs = locate_images(img_gray, quarter_imgs, quarter_lower, quarter_upper, quarter_thresh)
 

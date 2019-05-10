@@ -11,6 +11,9 @@ class Rectangle(object):
         self.area = self.w * self.h
 
     def overlap(self, other):
+        '''
+        겹치는 부분의 비율 반환
+        '''
         overlap_x = max(0, min(self.x + self.w, other.x + other.w) - max(self.x, other.x));
         overlap_y = max(0, min(self.y + self.h, other.y + other.h) - max(self.y, other.y));
         overlap_area = overlap_x * overlap_y
