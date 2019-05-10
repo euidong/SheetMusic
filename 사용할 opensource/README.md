@@ -20,3 +20,21 @@ https://github.com/cal-pratt/SheetVision
   - ex) python main.py C:\Users\justi\SheetVision\resources\samples\fire.jpg
 5. 이렇게 하고 기다리시면 바로 실행 됩니다.
   - 여기까지 꼭 할 것!
+
+## 설치 명령어
+
+- anaconda(패키지 관리 프로그램) 이용하면 편하다
+- anaconda 프롬프트에서 다음 명령을 실행한다.
+<br>
+- python -m pip install opencv-python
+  - opencv 모듈 설치
+- python -m pip install midiutil
+  - midiutil 설치
+- pip install -U numpy
+  - numpy 최신 버전으로 업데이트
+- python [MIDIUtil-0.89\MIDIUtil-0.89\setup.py 경로] install
+  - setup.py가 midiutil 설치하는 데 필요한 명령 모아놓은 파일인 것 같은데 그 파일에 install 파라미터 넘겨줘서 설치.
+
+## 실행법
+- python main.py [출력할 악보 이미지 파일 경로] 입력하면 됨.
+- 비주얼 스튜디오에서 실행할 때는 SheetVision-master 프로젝트 속성 - 스크립트 인수에 악보 이미지 파일 경로 입력.
