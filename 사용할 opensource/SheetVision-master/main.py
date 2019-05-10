@@ -194,8 +194,11 @@ if __name__ == "__main__":
     cv2.imwrite('whole_recs_img.png', whole_recs_img)
     open_file('whole_recs_img.png')
 
-    note_groups = []
+    note_groups = []    # 화음 그룹
     for box in staff_boxes:
+        # 심볼들의 음정 계산
+        # box.h*5.0/8.0 : 오선 처음부터 끝까지의 높이. 박스 안에 오선 한 칸이 8개 들어감.
+        # 즉, 오선 중점 기준 위 5칸, 아래 5칸에 있는 음만 포함
         staff_sharps = [Note(r, "sharp", box) 
             for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
         staff_flats = [Note(r, "flat", box) 
@@ -206,27 +209,30 @@ if __name__ == "__main__":
             for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
         whole_notes = [Note(r, "1", box, staff_sharps, staff_flats) 
             for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        staff_notes = quarter_notes + half_notes + whole_notes
-        staff_notes.sort(key=lambda n: n.rec.x)
-        staffs = [r for r in staff_recs if r.overlap(box) > 0]
-        staffs.sort(key=lambda r: r.x)
+        staff_notes = quarter_notes + half_notes + whole_notes    # 모든 음표의 음정 정보 
+        staff_notes.sort(key=lambda n: n.rec.x)    # x 좌표 기준으로 순서대로 정렬
+        staffs = [r for r in staff_recs if r.overlap(box) > 0]    # box 줄(한줄)에만 있는 오선지 Rectangle list
+        staffs.sort(key=lambda r: r.x)    # x 좌표 기준으로 순서대로 정렬
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
-        note_group = []
+        note_group = []    # 악보 꼬리별로 분류. 꼬리 묶여 있으면 하나의 엘리먼트
         i = 0; j = 0;
+        # 꼬리가 묶여 있는 음표 그룹화
         while(i < len(staff_notes)):
-            if (staff_notes[i].rec.x > staffs[j].x and j < len(staffs)):
-                r = staffs[j]
-                j += 1;
+            if (staff_notes[i].rec.x > staffs[j].x and j < len(staffs)):    # j번째 오선 rect가 i번째 음표보다 앞에 있으면
+                r = staffs[j]    # 오선지 Rectangle
+                j += 1;    # 다음 오선지 Rectangle 탐색
                 if len(note_group) > 0:
-                    note_groups.append(note_group)
-                    note_group = []
-                note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
-            else:
-                note_group.append(staff_notes[i])
-                staff_notes[i].rec.draw(img, note_color, 2)
-                i += 1
-        note_groups.append(note_group)
+                    note_groups.append(note_group)    # 꼬리로 묶여 있는 그룹 append
+                    note_group = []    # 새로운 그룹 만들기 위해 비움
+                note_color = (randint(0, 255), randint(0, 255), randint(0, 255))    # 그룹별로 다른 색으로 표시
+            else:    # j번째 오선 rect가 i번째 음표 뒤로 가면
+                # 빈 오선 rect와 rect 사이에 음표가 여러개 있으면 여러 번 수행됨
+                note_group.append(staff_notes[i])    # i번째 음표 추가
+                staff_notes[i].rec.draw(img, note_color, 2)    # 악보 이미지 객체에 음표 사각형 그림
+                i += 1    # 다음 음표 탐색
+        note_groups.append(note_group)    # 마지막 음표 그룹 append
 
+    # 색 지정한 이미지 객체 res.jpg 파일로 출력
     for r in staff_boxes:
         r.draw(img, (0, 0, 255), 2)
     for r in sharp_recs:
@@ -238,9 +244,11 @@ if __name__ == "__main__":
     cv2.imwrite('res.png', img)
     open_file('res.png')
    
+    # 모든 음표의 음정과 음표 종류 콘솔에 출력
     for note_group in note_groups:
         print([ note.note + " " + note.sym for note in note_group])
 
+    # 미디 파일 생성
     midi = MIDIFile(1)
      
     track = 0   
@@ -251,21 +259,23 @@ if __name__ == "__main__":
     midi.addTrackName(track, time, "Track")
     midi.addTempo(track, time, 140)
     
-    for note_group in note_groups:
+    for note_group in note_groups:    # 음표의 음정 리스트 입력
         duration = None
         for note in note_group:
             note_type = note.sym
+            # 음표 박자 종류에 따라 재생 시간 입력
             if note_type == "1":
                 duration = 4
             elif note_type == "2":
                 duration = 2
             elif note_type == "4,8":
-                duration = 1 if len(note_group) == 1 else 0.5
+                duration = 1 if len(note_group) == 1 else 0.5    # 꼬리 이어진 음표면 8분 음표로 간주
             pitch = note.pitch
-            midi.addNote(track,channel,pitch,time,duration,volume)
-            time += duration
+            midi.addNote(track,channel,pitch,time,duration,volume)   # 미디에 음 찍기
+            time += duration    # 박자에 따라 다음 음 찍을 시간 결정
 
-    midi.addNote(track,channel,pitch,time,4,0)
+    midi.addNote(track,channel,pitch,time,4,0)    # 마지막 묵음 입력
+    # 미디 파일 생성
     # And write it to disk.
     binfile = open("output.mid", 'wb')
     midi.writeFile(binfile)
