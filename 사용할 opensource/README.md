@@ -26,14 +26,15 @@ https://github.com/cal-pratt/SheetVision
 - anaconda(패키지 관리 프로그램) 이용하면 편하다
 - anaconda 프롬프트에서 다음 명령을 실행한다.
 <br>
-- python -m pip install opencv-python
-  - opencv 모듈 설치
-- python -m pip install midiutil
-  - midiutil 설치
-- pip install -U numpy
-  - numpy 최신 버전으로 업데이트
-- python [MIDIUtil-0.89\MIDIUtil-0.89\setup.py 경로] install
-  - setup.py가 midiutil 설치하는 데 필요한 명령 모아놓은 파일인 것 같은데 그 파일에 install 파라미터 넘겨줘서 설치.
+
+ - `python -m pip install opencv-python`<br>
+   - opencv 모듈 설치<br>
+ - `python -m pip install midiutil`<br>
+   - midiutil 설치<br>
+ - `pip install -U numpy`<br>
+   - numpy 최신 버전으로 업데이트<br>
+ - `python [MIDIUtil-0.89\MIDIUtil-0.89\setup.py 경로] install`<br>
+   - setup.py가 midiutil 설치하는 데 필요한 명령 모아놓은 파일인 것 같은데 그 파일에 install 파라미터 넘겨줘서 설치.<br>
 
 ## 실행법
 - python main.py [출력할 악보 이미지 파일 경로] 입력하면 됨.
