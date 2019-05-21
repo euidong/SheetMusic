@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="80c700c1-c1a8-473f-b735-1c92f1ebd30a" name="Default Changelist" comment="" />
+    <list default="true" id="80c700c1-c1a8-473f-b735-1c92f1ebd30a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../SheetVision-master/.idea/SheetVision-master.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SheetVision-master/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SheetVision-master/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../SheetVision-master/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SheetVision-master/best_fit.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetVision-master/best_fit.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../사용할 opensource/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../사용할 opensource/README.md" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +97,9 @@
       </pane>
       <pane id="Scope" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

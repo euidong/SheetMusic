@@ -19,7 +19,11 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
         for template in templates:
             template = cv2.resize(template, None,
                 fx = scale, fy = scale, interpolation = cv2.INTER_CUBIC) # 이미지를 축소 합니다.
-            result = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED) # 원본 이미지에서 특정 이미지를 찾는 방법
+
+            # 템플릿의 투명한 부분을 인식하도록 투명 마스크 생성
+            transparent_mask = generate_transparent_mask(template)
+
+            result = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=transparent_mask) # 원본 이미지에서 특정 이미지를 찾는 방법
             result = np.where(result >= threshold) #유사도가 threshold 이상이면 해당 위치값을 저장합니다.
             location_count += len(result[0])
             locations += [result]
@@ -38,3 +42,16 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
     plt.close()
 
     return best_locations, best_scale
+
+def generate_transparent_mask(img):
+    '''
+    투명화 마스크를 생성하여 리턴함
+    '''
+    channels = cv2.split(img)
+    zero_channel = np.zeros_like(channels[0])
+    mask = np.array(channels[3])
+    mask[channels[3] == 0] = 1
+    mask[channels[3] == 100] = 0
+    transparent_mask = cv2.merge([zero_channel, zero_channel, zero_channel, mask])
+
+    return transparent_mask
