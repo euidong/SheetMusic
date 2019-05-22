@@ -27,11 +27,10 @@ note_defs = {
      17 : ("f2", 53),
 }
 
-class Note(object):
+class Note (object):
     def __init__(self, rec, sym, staff_rec, sharp_notes = [], flat_notes = []):
         self.rec = rec
         self.sym = sym
-
         middle = rec.y + (rec.h / 2.0)
         height = (middle - staff_rec.y) / staff_rec.h
         note_def = note_defs[int(height/note_step + 0.5)]
@@ -43,5 +42,4 @@ class Note(object):
         if any(n for n in flat_notes if n.note[0] == self.note[0]):
             self.note += "b"
             self.pitch -= 1
-
 

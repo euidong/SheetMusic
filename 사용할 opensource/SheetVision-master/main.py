@@ -10,26 +10,37 @@ from random import randint
 from midiutil.MidiFile3 import MIDIFile
 
 staff_files = [
-    "resources/template/staff2.png", 
+    "resources/template/staff2.png",
     "resources/template/staff.png"]
 quarter_files = [
-    "resources/template/quarter.png", 
+    "resources/template/quarter.png",
     "resources/template/solid-note.png"]
 sharp_files = [
     "resources/template/sharp.png"]
 flat_files = [
-    "resources/template/flat-line.png", 
-    "resources/template/flat-space.png" ]
+    "resources/template/flat-line.png",
+    "resources/template/flat-space.png"]
 half_files = [
-    "resources/template/half-space.png", 
+    "resources/template/half-space.png",
     "resources/template/half-note-line.png",
-    "resources/template/half-line.png", 
+    "resources/template/half-line.png",
     "resources/template/half-note-space.png"]
 whole_files = [
-    "resources/template/whole-space.png", 
+    "resources/template/whole-space.png",
     "resources/template/whole-note-line.png",
-    "resources/template/whole-line.png", 
+    "resources/template/whole-line.png",
     "resources/template/whole-note-space.png"]
+wholeRest_files = [
+    "resources/template/bar-rest.png",
+    "resources/template/bar-rest2.png"]
+halfRest_files = [
+    "resources/template/half_rest.png"]
+quarterRest_files=[
+    "resources/template/quarter_rest.png"]
+eighthRest_files=[
+    "resources/template/eight_rest.png",
+    "resources/template/eight_rest2.png"]
+
 
 staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
@@ -38,13 +49,22 @@ flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
 half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]
 whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 
+wholeRest_imgs = [cv2.imread(wholeRest_file,0) for wholeRest_file in wholeRest_files]
+halfRest_imgs = [cv2.imread(halfRest_file,0) for halfRest_file in halfRest_files]
+quarterRest_imgs = [cv2.imread(quarterRest_file,0) for quarterRest_file in quarterRest_files]
+eighthRest_imgs = [cv2.imread(eighthRest_file,0) for eighthRest_file in eighthRest_files]
+
 staff_lower, staff_upper, staff_thresh = 50, 150, 0.77
 sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.70
 flat_lower, flat_upper, flat_thresh = 50, 150, 0.77
-quarter_lower, quarter_upper, quarter_thresh = 50, 150, 0.70
+quarter_lower, quarter_upper, quarter_thresh = 50, 100, 0.77
 half_lower, half_upper, half_thresh = 50, 150, 0.70
 whole_lower, whole_upper, whole_thresh = 50, 150, 0.70
 
+wholeRest_lower,wholeRest_upper,wholeRest_thresh =50,150,0.80
+halfRest_lower, halfRest_upper, halfRest_thresh =50,150,0.80
+quarterRest_lower, quarterRest_upper, quarterRest_thresh =50,150,0.70
+eighthRest_lower, eighthRest_upper,eighthRest_thresh= 50,100,0.85
 
 def locate_images(img, templates, start, stop, threshold):
     locations, scale = fit(img, templates, start, stop, threshold)
@@ -56,36 +76,39 @@ def locate_images(img, templates, start, stop, threshold):
         img_locations.append([Rectangle(pt[0], pt[1], w, h) for pt in zip(*locations[i][::-1])])
     return img_locations
 
+
 def merge_recs(recs, threshold):
     filtered_recs = []
     while len(recs) > 0:
         r = recs.pop(0)
         recs.sort(key=lambda rec: rec.distance(r))
         merged = True
-        while(merged):
+        while (merged):
             merged = False
             i = 0
             for _ in range(len(recs)):
                 if r.overlap(recs[i]) > threshold or recs[i].overlap(r) > threshold:
                     r = r.merge(recs.pop(i))
                     merged = True
-                elif recs[i].distance(r) > r.w/2 + recs[i].w/2:
+                elif recs[i].distance(r) > r.w / 2 + recs[i].w / 2:
                     break
                 else:
                     i += 1
         filtered_recs.append(r)
     return filtered_recs
 
+
 def open_file(path):
-    cmd = {'linux':'eog', 'win32':'explorer', 'darwin':'open'}[sys.platform]
+    cmd = {'linux': 'eog', 'win32': 'explorer', 'darwin': 'open'}[sys.platform]
     subprocess.run([cmd, path])
+
 
 if __name__ == "__main__":
     img_file = sys.argv[1:][0]
     img = cv2.imread(img_file, 0)
-    img_gray = img#cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = cv2.cvtColor(img_gray,cv2.COLOR_GRAY2RGB)
-    ret,img_gray = cv2.threshold(img_gray,127,255,cv2.THRESH_BINARY)
+    img_gray = img  # cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img_gray, cv2.COLOR_GRAY2RGB)
+    ret, img_gray = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
     img_width, img_height = img_gray.shape[::-1]
 
     print("Matching staff image...")
@@ -113,7 +136,7 @@ if __name__ == "__main__":
         r.draw(staff_boxes_img, (0, 0, 255), 2)
     cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
     open_file('staff_boxes_img.png')
-    
+
     print("Matching sharp image...")
     sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
 
@@ -136,6 +159,7 @@ if __name__ == "__main__":
     cv2.imwrite('flat_recs_img.png', flat_recs_img)
     open_file('flat_recs_img.png')
 
+    #음표 인식
     print("Matching quarter image...")
     quarter_recs = locate_images(img_gray, quarter_imgs, quarter_lower, quarter_upper, quarter_thresh)
 
@@ -169,29 +193,87 @@ if __name__ == "__main__":
     cv2.imwrite('whole_recs_img.png', whole_recs_img)
     open_file('whole_recs_img.png')
 
+    #쉼표 인식
+    print("Matching wholeRest image...")
+    wholeRest_recs = locate_images(img_gray, wholeRest_imgs, wholeRest_lower, wholeRest_upper, wholeRest_thresh)
+
+    print("Merging wholeRest image results...")
+    wholeRest_recs = merge_recs([j for i in wholeRest_recs for j in i], 0.5)
+    wholeRest_recs_img = img.copy()
+    for r in wholeRest_recs:
+        r.draw(wholeRest_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('wholeRest_recs_img.png', wholeRest_recs_img)
+    open_file('wholeRest_recs_img.png')
+
+    print("Matching halfRest image...")
+    halfRest_recs = locate_images(img_gray, halfRest_imgs, halfRest_lower, halfRest_upper, halfRest_thresh)
+
+    print("Merging halfRest image results...")
+    halfRest_recs = merge_recs([j for i in halfRest_recs for j in i], 0.5)
+    halfRest_recs_img = img.copy()
+    for r in halfRest_recs:
+        r.draw(halfRest_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('halfRest_recs_img.png', halfRest_recs_img)
+    open_file('halfRest_recs_img.png')
+
+    print("Matching quarterRest image...")
+    quarterRest_recs = locate_images(img_gray, quarterRest_imgs, quarterRest_lower, quarterRest_upper,
+                                     quarterRest_thresh)
+
+    print("Merging quarterRest image results...")
+    quarterRest_recs = merge_recs([j for i in quarterRest_recs for j in i], 0.5)
+    quarterRest_recs_img = img.copy()
+    for r in quarterRest_recs:
+        r.draw(quarterRest_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('quarterRest_recs_img.png', quarterRest_recs_img)
+    open_file('quarterRest_recs_img.png')
+
+    print("Matching eighthRest image...")
+    eighthRest_recs = locate_images(img_gray, eighthRest_imgs, eighthRest_lower, eighthRest_upper,
+                                    eighthRest_thresh)
+
+    print("Merging eighthRest image results...")
+    eighthRest_recs = merge_recs([j for i in eighthRest_recs for j in i], 0.5)
+    eighthRest_recs_img = img.copy()
+    for r in eighthRest_recs:
+        r.draw(eighthRest_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('eighthRest_recs_img.png', eighthRest_recs_img)
+
     note_groups = []
     for box in staff_boxes:
-        staff_sharps = [Note(r, "sharp", box) 
-            for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        staff_flats = [Note(r, "flat", box) 
-            for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        quarter_notes = [Note(r, "4,8", box, staff_sharps, staff_flats) 
-            for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        half_notes = [Note(r, "2", box, staff_sharps, staff_flats) 
-            for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        whole_notes = [Note(r, "1", box, staff_sharps, staff_flats) 
-            for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        staff_notes = quarter_notes + half_notes + whole_notes
+        staff_sharps = [Note(r, "sharp", box)
+                        for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        staff_flats = [Note(r, "flat", box)
+                       for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        quarter_notes = [Note(r, "4,8", box, staff_sharps, staff_flats)
+                         for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        half_notes = [Note(r, "2", box, staff_sharps, staff_flats)
+                      for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        whole_notes = [Note(r, "1", box, staff_sharps, staff_flats)
+                       for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        whole_rests = [Note(r, "-1", box)
+                       for r in wholeRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        half_rests = [Note(r, "-2", box)
+                      for r in halfRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        quarter_rests = [Note(r, "-4", box)
+                         for r in quarterRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+        eighth_rests = [Note(r, "-8", box)
+                        for r in eighthRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
+
+        staff_notes = quarter_notes + half_notes + whole_notes + quarter_rests + half_rests + whole_rests + eighth_rests
         staff_notes.sort(key=lambda n: n.rec.x)
         staffs = [r for r in staff_recs if r.overlap(box) > 0]
         staffs.sort(key=lambda r: r.x)
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
-        note_group = []
-        i = 0; j = 0;
-        while(i < len(staff_notes)):
+
+
+        note_group= []
+        i = 0
+        j = 0
+        while (i < len(staff_notes)):
             if (staff_notes[i].rec.x > staffs[j].x and j < len(staffs)):
                 r = staffs[j]
-                j += 1;
+                j += 1
                 if len(note_group) > 0:
                     note_groups.append(note_group)
                     note_group = []
@@ -209,40 +291,57 @@ if __name__ == "__main__":
     flat_recs_img = img.copy()
     for r in flat_recs:
         r.draw(img, (0, 0, 255), 2)
-        
+
     cv2.imwrite('res.png', img)
     open_file('res.png')
-   
+
     for note_group in note_groups:
-        print([ note.note + " " + note.sym for note in note_group])
+        for note in note_group:
+            if (note.note != None):
+                print([note.note + " " + note.sym])
+            else:
+                print([note.sym])
 
     midi = MIDIFile(1)
-     
-    track = 0   
+
+    track = 0
     time = 0
     channel = 0
     volume = 100
-    
+
     midi.addTrackName(track, time, "Track")
     midi.addTempo(track, time, 140)
-    
+
     for note_group in note_groups:
         duration = None
         for note in note_group:
             note_type = note.sym
-            if note_type == "1":
-                duration = 4
-            elif note_type == "2":
-                duration = 2
-            elif note_type == "4,8":
-                duration = 1 if len(note_group) == 1 else 0.5
-            pitch = note.pitch
-            midi.addNote(track,channel,pitch,time,duration,volume)
-            time += duration
+            if (len(note_type) != 2):
+                if note_type == "1":
+                    duration = 4
+                elif note_type == "2":
+                    duration = 2
+                elif note_type == "4,8":
+                    duration = 1 if len(note_group) == 1 else 0.5
+                pitch = note.pitch
+                midi.addNote(track, channel, pitch, time, duration, volume)
+                time += duration
 
-    midi.addNote(track,channel,pitch,time,4,0)
+            else:
+                if note_type == "-1":
+                    duration = 4
+                elif note_type == "-2":
+                    duration = 2
+                elif note_type == "-4":
+                    duration = 1
+                else:
+                    duration = 0.5
+                pitch = note.pitch
+                midi.addNote(track, channel, pitch, time, duration, 0)
+                time += duration
     # And write it to disk.
     binfile = open("output.mid", 'wb')
     midi.writeFile(binfile)
     binfile.close()
     open_file('output.mid')
+
