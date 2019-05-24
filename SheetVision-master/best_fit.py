@@ -11,7 +11,6 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
     '''
     plt.axis([0, 2, 0, 1]) # 세로축의 값을 의미합니다.
     plt.show(block=False)
-
     x = []
     y = []
     '''
@@ -22,18 +21,13 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
         for template in templates:
             template = cv2.resize(template, None,
                 fx = scale, fy = scale, interpolation = cv2.INTER_CUBIC) # 이미지를 축소 합니다.
-
-            # 템플릿의 투명한 부분을 인식하도록 투명 마스크 생성
-            transparent_mask = generate_transparent_mask(template)
-            
             template_width,template_height=template.shape[::-1]
             if img_height>=template_height and img_width>=template_width:
-                result = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED, mask=transparent_mask)
+                result = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
                 result = np.where(result >= threshold)
                 location_count += len(result[0])
                 locations += [result]
         '''
->>>>>>> 2f88d9f5db8d935c8d27e76abb1004df222ffdba
         print("scale: {0}, hits: {1}".format(scale, location_count))
         x.append(location_count)
         y.append(scale)
