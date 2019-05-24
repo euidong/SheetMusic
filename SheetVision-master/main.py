@@ -107,7 +107,7 @@ def locate_images(img, templates, start, stop, threshold): # 오선의 위치 �
         h *= scale
         img_locations.append([Rectangle(pt[0], pt[1], w, h) for pt in zip(*locations[i][::-1])])
     return img_locations
-
+ 
 def merge_recs(recs, threshold):
     filtered_recs = []
     while len(recs) > 0:
