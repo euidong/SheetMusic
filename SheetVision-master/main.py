@@ -236,16 +236,29 @@ if __name__ == "__main__":
             for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
         staff_flats = [Note(r, "flat", box)
             for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        quarter_notes = [Note(r, "4,8", box, staff_sharps, staff_flats)
+        quarter_notes = [Note(r, "4,8", box)
             for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        half_notes = [Note(r, "2", box, staff_sharps, staff_flats)
+        half_notes = [Note(r, "2", box)
             for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
-        whole_notes = [Note(r, "1", box, staff_sharps, staff_flats)
+        whole_notes = [Note(r, "1", box)
             for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h*5.0/8.0]
         staff_notes = quarter_notes + half_notes + whole_notes
         staff_notes.sort(key=lambda n: n.rec.x)
         staffs = [r for r in staff_recs if r.overlap(box) > 0]
         staffs.sort(key=lambda r: r.x)
+
+            # 음계 파악
+        key_sharps = []    # 조표의 샾
+        key_flats = []    # 조표의 플랫
+        # x좌표 기준 첫 번째 음표 찾기
+        # 샾의 x좌표와 첫 번째 음표 x좌표 비교해서 작은 샾만 조표로 판단
+        if len(staff_notes) > 0:
+            key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
+            key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+
+        for note in whole_notes:
+            note.set_key(key_sharps)
+
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
         note_group = []
         i = 0; j = 0;
@@ -263,11 +276,6 @@ if __name__ == "__main__":
                 i += 1
         note_groups.append(note_group)
     
-    # 음계 파악
-    # x좌표 기준 첫 번째 음표 or 쉼표 찾기
-    # 샾의 x좌표와 첫 번째 음표 x좌표 비교해서 작은 것 중에서 가장 큰 샾 음을 받음
-    # 파도솔레라미시로 판단
-
 
     for r in staff_boxes:
         r.draw(img, (0, 0, 255), 2)

@@ -37,10 +37,22 @@ class Note(object):
         note_def = note_defs[int(height/note_step + 0.5)]
         self.note = note_def[0]
         self.pitch = note_def[1]
-        if any(n for n in sharp_notes if n.note[0] == self.note[0]):
+
+        #if any(n for n in sharp_notes if n.note == self.note):
+        #    self.note += "#"
+        #    self.pitch += 1
+        #if any(n for n in flat_notes if n.note == self.note):
+        #    self.note += "b"
+        #    self.pitch -= 1
+        
+    def set_key(self, key_sharps = [], key_flats = []):
+        '''
+        조표에 있는 sharp과 flat을 받아 note들에 sharp으로 된 조표 적용
+        '''
+        if any(sharp for sharp in key_sharps if sharp.note[0] == self.note[0]):
             self.note += "#"
             self.pitch += 1
-        if any(n for n in flat_notes if n.note[0] == self.note[0]):
+        if any(flat for flat in key_flats if flat.note == self.note):
             self.note += "b"
             self.pitch -= 1
 
