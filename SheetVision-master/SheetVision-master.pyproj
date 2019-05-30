@@ -24,6 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="best_fit.py" />
+    <Compile Include="clef.py" />
     <Compile Include="main.py" />
     <Compile Include="MIDIUtil-0.89\MIDIUtil-0.89\examples\single-note-example.py" />
     <Compile Include="MIDIUtil-0.89\MIDIUtil-0.89\setup.py" />

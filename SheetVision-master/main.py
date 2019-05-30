@@ -12,7 +12,14 @@ from midiutil.MidiFile import MIDIFile
 staff_files = [
     "resources/template/staff2.png",
     "resources/template/staff.png"]
-
+# 높은음자리표 파일 경로
+g_clef_files=[
+    "resources/template/g_clef.png"
+    ]
+# 낮음음자리표 파일 경로
+bass_clef_files=[
+    "resources/template/bass_clef.png"
+    ]
 # 음표의 모양을 저장한 위치를 가진 변수(안이 꽉 찬 모양)
 quarter_files = [
     "resources/template/quarter.png",
@@ -45,6 +52,8 @@ whole_files = [
 
 # 이미지를 불러옵니다.
 staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files] #오선에 대한 이미집니다.
+g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
 sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files] # 샾 이미지
 flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
@@ -53,6 +62,8 @@ whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 
 
 staff_lower, staff_upper, staff_thresh = 50, 150, 0.50    # thresh original: 0.77
+g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
+bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
 sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.65    # thresh original : 0.70
 flat_lower, flat_upper, flat_thresh = 50, 150, 0.77
 quarter_lower, quarter_upper, quarter_thresh = 50, 150, 0.70
@@ -174,6 +185,31 @@ if __name__ == "__main__":
     cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
     open_file('staff_boxes_img.png')
     
+    print("Matching g_clef image...")
+    g_clef_recs = locate_images(img_gray, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
+
+    # 높은음자리표 매칭
+    print("Merging g_clef image results...")
+    g_clef_recs = merge_recs([j for i in g_clef_recs for j in i], 0.5)
+    g_clef_recs_img = img.copy()
+    for r in g_clef_recs:
+        r.draw(g_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('g_clef_recs_img.png', g_clef_recs_img)
+    open_file('g_clef_recs_img.png')
+
+    # 낮음음자리표 매칭
+    print("Matching bass_clef image...")
+    bass_clef_recs = locate_images(img_gray, bass_clef_imgs, bass_clef_lower, bass_clef_upper, bass_clef_thresh)
+
+    print("Merging bass_clef image results...")
+    bass_clef_recs = merge_recs([j for i in bass_clef_recs for j in i], 0.5)
+    bass_clef_recs_img = img.copy()
+    for r in bass_clef_recs:
+        r.draw(bass_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('bass_clef_recs_img.png', bass_clef_recs_img)
+    open_file('bass_clef_recs_img.png')
+
+    # 조표 매칭
     print("Matching sharp image...")
     sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
     
