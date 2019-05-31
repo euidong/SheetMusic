@@ -62,8 +62,6 @@ whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 
 
 staff_lower, staff_upper, staff_thresh = 50, 150, 0.50    # thresh original: 0.77
-g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
-bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
 sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.65    # thresh original : 0.70
 flat_lower, flat_upper, flat_thresh = 50, 150, 0.77
 quarter_lower, quarter_upper, quarter_thresh = 50, 150, 0.70
@@ -108,6 +106,48 @@ def CutMeasures(img):
             l += 1
     return measure
 
+def find_g_clef(measure_img, g_clef_templates, bass_clef_templates):
+    '''
+    악보 이미지에서 음자리표 찾아 높은음자리표면 True를 반환하는 함수
+    '''
+    
+    is_g_clef = True   # 높은음자리인지 판단. false면 낮은음자리표
+
+    g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
+    bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
+
+    g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+    bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
+
+    # 높은음자리표 매칭
+    print("Matching g_clef image...")
+    g_clef_recs = locate_images(measure_img, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
+    
+    print("Merging g_clef image results...")
+    g_clef_recs = merge_recs([j for i in g_clef_recs for j in i], 0.5)
+    g_clef_recs_img = measure_img.copy()
+    for r in g_clef_recs:
+        r.draw(g_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('g_clef_recs_img.png', g_clef_recs_img)
+    open_file('g_clef_recs_img.png')
+
+    # 낮은음자리표 매칭
+    print("Matching bass_clef image...")
+    bass_clef_recs = locate_images(measure_img, bass_clef_imgs, bass_clef_lower, bass_clef_upper, bass_clef_thresh)
+
+    print("Merging bass_clef image results...")
+    bass_clef_recs = merge_recs([j for i in bass_clef_recs for j in i], 0.5)
+    bass_clef_recs_img = measure_img.copy()
+    for r in bass_clef_recs:
+        r.draw(bass_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('bass_clef_recs_img.png', bass_clef_recs_img)
+    open_file('bass_clef_recs_img.png')
+
+    # 낮은음자리표 검출되면 false
+    if len(bass_clef_recs) > 0:
+        is_g_clef = False
+
+    return is_g_clef
 
 def locate_images(img, templates, start, stop, threshold): # 오선의 위치 찾는 함수
     locations, scale = fit(img, templates, start, stop, threshold)
@@ -184,30 +224,8 @@ if __name__ == "__main__":
         r.draw(staff_boxes_img, (0, 0, 255), 2)
     cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
     open_file('staff_boxes_img.png')
-    
-    print("Matching g_clef image...")
-    g_clef_recs = locate_images(img_gray, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
 
-    # 높은음자리표 매칭
-    print("Merging g_clef image results...")
-    g_clef_recs = merge_recs([j for i in g_clef_recs for j in i], 0.5)
-    g_clef_recs_img = img.copy()
-    for r in g_clef_recs:
-        r.draw(g_clef_recs_img, (0, 0, 255), 2)
-    cv2.imwrite('g_clef_recs_img.png', g_clef_recs_img)
-    open_file('g_clef_recs_img.png')
-
-    # 낮음음자리표 매칭
-    print("Matching bass_clef image...")
-    bass_clef_recs = locate_images(img_gray, bass_clef_imgs, bass_clef_lower, bass_clef_upper, bass_clef_thresh)
-
-    print("Merging bass_clef image results...")
-    bass_clef_recs = merge_recs([j for i in bass_clef_recs for j in i], 0.5)
-    bass_clef_recs_img = img.copy()
-    for r in bass_clef_recs:
-        r.draw(bass_clef_recs_img, (0, 0, 255), 2)
-    cv2.imwrite('bass_clef_recs_img.png', bass_clef_recs_img)
-    open_file('bass_clef_recs_img.png')
+    find_g_clef(measures[0], g_clef_files, bass_clef_files)
 
     # 조표 매칭
     print("Matching sharp image...")
