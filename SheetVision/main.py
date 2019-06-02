@@ -35,7 +35,9 @@ sharp_files = [
 flat_files = [
     "resources/template/flat-line.png",
     "resources/template/flat-space.png" ]
-
+key_changer_files = [
+    "resources/template/bar_key_change.png"
+]
 # 2분음표의 모양을 저장한 위치를 가진 변수 (안이 비어있음) - 선의 모양도 같이 저장(맨윗줄, 맨아랫줄은 두꺼움)
 half_files = [
     "resources/template/half-space.png",
@@ -57,6 +59,7 @@ bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
 sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files] # 샾 이미지
 flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
+key_changer_imgs = [cv2.imread(key_changer_file, 0) for key_changer_file in key_changer_files]
 half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]
 whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 
@@ -116,9 +119,6 @@ def find_g_clef(measure_img, g_clef_templates, bass_clef_templates):
     g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
     bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
 
-    g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
-    bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
-
     # 높은음자리표 매칭
     print("Matching g_clef image...")
     g_clef_recs = locate_images(measure_img, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
@@ -148,6 +148,28 @@ def find_g_clef(measure_img, g_clef_templates, bass_clef_templates):
         is_g_clef = False
 
     return is_g_clef
+
+def find_key_changer(measure_img, bar_templates):
+    '''
+    악보 이미지에서 조표 바뀌는 두 줄 바를 탐지해 rectangle list를 반환하는 함수
+    '''
+
+    lower, upper, thresh = 50, 150, 0.90
+
+    print("Matching key changing bar image...")
+    key_changer_recs = locate_images(measure_img, bar_templates, lower, upper, thresh)
+    
+    print("Merging key changing bar image results...")
+    key_changer_recs = merge_recs([j for i in key_changer_recs for j in i], 0.5)
+    key_changer_img = measure_img.copy()
+    for r in key_changer_recs:
+        r.draw(key_changer_img, (0, 0, 255), 2)
+    cv2.imwrite('key_changer_recs_img.png', key_changer_img)
+    open_file('key_changer_recs_img.png')
+
+    key_changer_recs.sort(key=lambda r: r.x)
+
+    return key_changer_recs
 
 def locate_images(img, templates, start, stop, threshold): # 오선의 위치 찾는 함수
     locations, scale = fit(img, templates, start, stop, threshold)
@@ -198,59 +220,62 @@ if __name__ == "__main__":
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    print("Matching staff image...")# 악보의 오선 받기.
-    staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh) # staff_lower, staff_upper, staff_thresh = 50, 150, 0.77
+    #print("Matching staff image...")# 악보의 오선 받기.
+    #staff_recs = locate_images(img_gray, staff_imgs, staff_lower, staff_upper, staff_thresh) # staff_lower, staff_upper, staff_thresh = 50, 150, 0.77
     
     
-    print("Filtering weak staff matches...")
-    staff_recs = [j for i in staff_recs for j in i]
-    heights = [r.y for r in staff_recs] + [0]
-    histo = [heights.count(i) for i in range(0, max(heights) + 1)]
-    avg = np.mean(list(set(histo)))
-    staff_recs = [r for r in staff_recs if histo[r.y] > avg]
+    #print("Filtering weak staff matches...")
+    #staff_recs = [j for i in staff_recs for j in i]
+    #heights = [r.y for r in staff_recs] + [0]
+    #histo = [heights.count(i) for i in range(0, max(heights) + 1)]
+    #avg = np.mean(list(set(histo)))
+    #staff_recs = [r for r in staff_recs if histo[r.y] > avg]
     
-    print("merging staff image results...")
-    staff_recs = merge_recs(staff_recs, 0.01)
-    staff_recs_img = img.copy()
-    for r in staff_recs:
-        r.draw(staff_recs_img, (0, 0, 255), 2)
-    cv2.imwrite('staff_recs_img.png', staff_recs_img)
-    open_file('staff_recs_img.png')
+    #print("merging staff image results...")
+    #staff_recs = merge_recs(staff_recs, 0.01)
+    #staff_recs_img = img.copy()
+    #for r in staff_recs:
+    #    r.draw(staff_recs_img, (0, 0, 255), 2)
+    #cv2.imwrite('staff_recs_img.png', staff_recs_img)
+    #open_file('staff_recs_img.png')
     
-    print("discovering staff locations...")
-    staff_boxes = merge_recs([Rectangle(0, r.y, img_width, r.h) for r in staff_recs], 0.01)
-    staff_boxes_img = img.copy()
-    for r in staff_boxes:
-        r.draw(staff_boxes_img, (0, 0, 255), 2)
-    cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
-    open_file('staff_boxes_img.png')
+    #print("discovering staff locations...")
+    #staff_boxes = merge_recs([Rectangle(0, r.y, img_width, r.h) for r in staff_recs], 0.01)
+    #staff_boxes_img = img.copy()
+    #for r in staff_boxes:
+    #    r.draw(staff_boxes_img, (0, 0, 255), 2)
+    #cv2.imwrite('staff_boxes_img.png', staff_boxes_img)
+    #open_file('staff_boxes_img.png')
 
-    find_g_clef(measures[0], g_clef_files, bass_clef_files)
+    #find_g_clef(measures[0], g_clef_files, bass_clef_files)
 
-    # 조표 매칭
-    print("Matching sharp image...")
-    sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
+    ## 조표 매칭
+    #print("Matching sharp image...")
+    #sharp_recs = locate_images(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
     
-    print("Merging sharp image results...")
-    sharp_recs = merge_recs([j for i in sharp_recs for j in i], 0.5)
-    sharp_recs_img = img.copy()
-    for r in sharp_recs:
-        r.draw(sharp_recs_img, (0, 0, 255), 2)
-    cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
-    open_file('sharp_recs_img.png')
+    #print("Merging sharp image results...")
+    #sharp_recs = merge_recs([j for i in sharp_recs for j in i], 0.5)
+    #sharp_recs_img = img.copy()
+    #for r in sharp_recs:
+    #    r.draw(sharp_recs_img, (0, 0, 255), 2)
+    #cv2.imwrite('sharp_recs_img.png', sharp_recs_img)
+    #open_file('sharp_recs_img.png')
     
 
-    print("Matching flat image...")
-    flat_recs = locate_images(img_gray, flat_imgs, flat_lower, flat_upper, flat_thresh)
+    #print("Matching flat image...")
+    #flat_recs = locate_images(img_gray, flat_imgs, flat_lower, flat_upper, flat_thresh)
     
-    print("Merging flat image results...")
-    flat_recs = merge_recs([j for i in flat_recs for j in i], 0.5)
-    flat_recs_img = img.copy()
-    for r in flat_recs:
-        r.draw(flat_recs_img, (0, 0, 255), 2)
-    cv2.imwrite('flat_recs_img.png', flat_recs_img)
-    open_file('flat_recs_img.png')
-    
+    #print("Merging flat image results...")
+    #flat_recs = merge_recs([j for i in flat_recs for j in i], 0.5)
+    #flat_recs_img = img.copy()
+    #for r in flat_recs:
+    #    r.draw(flat_recs_img, (0, 0, 255), 2)
+    #cv2.imwrite('flat_recs_img.png', flat_recs_img)
+    #open_file('flat_recs_img.png')
+
+    # 조표 바꾸는 세로 2줄(||) 매칭
+    key_changer_recs = find_key_changer(img_gray, key_changer_imgs)
+
     print("Matching quarter image...")
     quarter_recs = locate_images(img_gray, quarter_imgs, quarter_lower, quarter_upper, quarter_thresh)
     
@@ -301,7 +326,18 @@ if __name__ == "__main__":
         staffs = [r for r in staff_recs if r.overlap(box) > 0]
         staffs.sort(key=lambda r: r.x)
 
-            # 음계 파악
+        if len(key_changer_recs) > 0:
+            for bar in key_changer_recs:
+                first_note = staff_notes[0]
+                # 조 바뀜이 시작되는 첫 번째 음표 찾기
+                for note in staff_notes:
+                    if note.rec.x > bar.x:
+                        first_note = note
+
+                key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
+                key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+
+        # 음계 파악
         key_sharps = []    # 조표의 샾
         key_flats = []    # 조표의 플랫
         # x좌표 기준 첫 번째 음표 찾기
@@ -311,7 +347,7 @@ if __name__ == "__main__":
             key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
 
         for note in whole_notes:
-            note.set_key(key_sharps)
+            note.set_key(key_sharps, key_flats)
 
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
         note_group = []
