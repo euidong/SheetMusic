@@ -47,3 +47,17 @@ def fit(img, templates, start_percent, stop_percent, threshold):  # (전체이�
     plt.close()
 
     return best_locations, best_scale
+
+
+    def generate_transparent_mask(img):
+        '''
+        투명화 마스크를 생성하여 리턴함
+        '''
+        channels = cv2.split(img)
+        zero_channel = np.zeros_like(channels[0])
+        mask = np.array(channels[3])
+        mask[channels[3] == 0] = 1
+        mask[channels[3] == 100] = 0
+        transparent_mask = cv2.merge([zero_channel, zero_channel, zero_channel, mask])
+
+        return transparent_mask

@@ -9,13 +9,19 @@ from note import Note
 from random import randint
 from midiutil.MidiFile import MIDIFile, MIDITrack
 
+# 높은음자리표 파일 경로
+g_clef_files=[
+    "resources/template/g_clef.png"]
+# 낮음음자리표 파일 경로
+bass_clef_files=[
+    "resources/template/bass_clef.png"  ]
 quarter_files = [
-    "resources/template/newquarter.png",
-    "resources/template/newquarter2.png",
-    "resources/template/newquarter3.png",
-    "resources/template/newquarter4.png"]
+    "resources/template/quarter.png",
+    "resources/template/solid-note.png"]
 sharp_files = [
-    "resources/template/sharp.png"]
+    "resources/template/sharp.png",
+    "resources/template/f-sharp.png",
+    "resources/template/f-sharp2.png"]
 flat_files = [
     "resources/template/flat-line.png",
     "resources/template/flat-space.png"]
@@ -44,7 +50,10 @@ replay_files = [
     "resources/template/dodol.png"] #도돌이표 이미지 추가
 
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
-sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files]
+g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
+quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
+sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files] # 샾 이미지
 flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
 half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]
 whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
@@ -104,6 +113,27 @@ def CutMeasures2(img):
                 lineSize[m] = 0
             l += 1
     return measure
+
+def find_g_clef(measure_img, g_clef_templates, bass_clef_templates):
+    '''
+    악보 이미지에서 음자리표 찾아 높은음자리표면 True를 반환하는 함수
+    '''
+    is_g_clef = True   # 높은음자리인지 판단. false면 낮은음자리표
+
+    g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
+    bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
+
+    g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+    bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
+
+    g_clef_recs = match_and_merge(img_gray, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
+    bass_clef_recs = match_and_merge(img_gray, bass_clef_imgs, bass_clef_lower, bass_clef_upper, bass_clef_thresh)
+
+    # 낮은음자리표 검출되면 false
+    if len(bass_clef_recs) > 0:
+        is_g_clef = False
+
+    return is_g_clef
 
 def locate_images(img, templates, start, stop, threshold):
     locations, scale = fit(img, templates, start, stop, threshold)
@@ -165,7 +195,12 @@ if __name__ == "__main__":
     img_width, img_height = img_gray.shape[::-1]
 
     staff_boxes = CutMeasures2(img_gray)
-
+    '''
+    for idx, cut_measure in enumerate(staff_boxes):
+        cv2.imwrite('cutting{}.png'.format(idx), cut_measure)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    '''
     # sharp
     sharp_recs = match_and_merge(img_gray, sharp_imgs, sharp_lower, sharp_upper, sharp_thresh)
     # flat
@@ -176,31 +211,30 @@ if __name__ == "__main__":
     '''
     half_recs = match_and_merge(img_gray, half_imgs, half_lower, half_upper, half_thresh)
     whole_recs = match_and_merge(img_gray, whole_imgs, whole_lower, whole_upper, whole_thresh)
-    
+
     # rest
     wholeRest_recs = match_and_merge(img_gray, wholeRest_imgs, wholeRest_lower, wholeRest_upper, wholeRest_thresh)
     halfRest_recs = match_and_merge(img_gray, halfRest_imgs, halfRest_lower, halfRest_upper, halfRest_thresh)
     quarterRest_recs = match_and_merge(img_gray, quarterRest_imgs, quarterRest_lower, quarterRest_upper,quarterRest_thresh)
     eighthRest_recs = match_and_merge(img_gray, eighthRest_imgs, eighthRest_lower, eighthRest_upper,eighthRest_thresh)
-    
+
     # replay
     replay_recs = match_and_merge(img_gray, replay_imgs, replay_lower, replay_upper, replay_thresh)
     '''
-    major = 0 ;
     note_group = []
     for box in staff_boxes:
         staff_sharps = [Note(r, "sharp", box)
                         for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         staff_flats = [Note(r, "flat", box)
                        for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        quarter_notes = [Note(r, "4,8", box, major, staff_sharps, staff_flats)
+        quarter_notes = [Note(r, "4,8", box)
                          for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         '''
         half_notes = [Note(r, "2", box, staff_sharps, staff_flats)
                       for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         whole_notes = [Note(r, "1", box, staff_sharps, staff_flats)
                        for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        
+
         whole_rests = [Note(r, "-1", box)
                        for r in wholeRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         half_rests = [Note(r, "-2", box)
@@ -209,18 +243,33 @@ if __name__ == "__main__":
                          for r in quarterRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         eighth_rests = [Note(r, "-8", box)
                         for r in eighthRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-       
+
         replay = [Note(r, "-0", box)
                   for r in replay_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         '''
         staff_notes = quarter_notes # + half_notes + whole_notes + replay + quarter_rests + half_rests + whole_rests + eighth_rests
         staff_notes.sort(key=lambda n: n.rec.x)
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
+
         i = 0
         while (i < len(staff_notes)):
-                note_group.append(staff_notes[i])
-                staff_notes[i].rec.draw(img, note_color, 2)
-                i += 1
+            note_group.append(staff_notes[i])
+            staff_notes[i].rec.draw(img, note_color, 2)
+            i += 1
+    # 음계 파악
+    key_sharps = []    # 조표의 샾
+    key_flats = []    # 조표의 플랫
+    # x좌표 기준 첫 번째 음표 찾기
+    # 샾의 x좌표와 첫 번째 음표 x좌표 비교해서 작은 샾만 조표로 판단
+    if len(staff_notes) > 0:
+        key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
+        key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+
+    #음자리표 결정
+    isGclef = find_g_clef(staff_boxes[0], g_clef_files, bass_clef_files)
+
+    for note in note_group:
+        note.set_key(isGclef, key_sharps, staff_sharps, staff_flats)
 
 
     for r in staff_boxes:
