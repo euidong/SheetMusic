@@ -2,12 +2,11 @@ import cv2
 import math
 
 class Rectangle(object):
-    flag = 0
     def __init__(self, x, y, w, h):
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+        self.x = x;
+        self.y = y;
+        self.w = w;
+        self.h = h;
         self.middle = self.x + self.w/2, self.y + self.h/2
         self.area = self.w * self.h
 
@@ -33,4 +32,3 @@ class Rectangle(object):
         pos = ((int)(self.x), (int)(self.y))
         size = ((int)(self.x + self.w), (int)(self.y + self.h))
         cv2.rectangle(img, pos, size, color, thickness)
-
