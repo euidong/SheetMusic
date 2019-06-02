@@ -15,7 +15,7 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
     y = []
     '''
 
-    for scale in [i / 100.0 for i in range(start_percent, stop_percent + 1, 3)]:  # 3pixel만큼 뛰면서 검색 (50,150)
+    for scale in [i/100.0 for i in range(start_percent, stop_percent + 1, 3)]: # 3pixel만큼 뛰면서 검색 (50,150)
         locations = []
         location_count = 0
         for template in templates:
