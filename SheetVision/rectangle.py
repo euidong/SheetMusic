@@ -33,4 +33,3 @@ class Rectangle(object):
         pos = ((int)(self.x), (int)(self.y))
         size = ((int)(self.x + self.w), (int)(self.y + self.h))
         cv2.rectangle(img, pos, size, color, thickness)
-

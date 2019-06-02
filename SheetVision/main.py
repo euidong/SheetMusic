@@ -9,22 +9,44 @@ from note import Note
 from random import randint
 from midiutil.MidiFile import MIDIFile
 
+# 라인의 모양을 저장한 위치를 가진 변수
 staff_files = [
     "resources/template/staff2.png",
     "resources/template/staff.png"]
+# 높은음자리표 파일 경로
+g_clef_files=[
+    "resources/template/g_clef.png"
+    ]
+# 낮음음자리표 파일 경로
+bass_clef_files=[
+    "resources/template/bass_clef.png"
+    ]
+# 음표의 모양을 저장한 위치를 가진 변수(안이 꽉 찬 모양)
 quarter_files = [
     "resources/template/quarter.png",
     "resources/template/solid-note.png"]
+
+# 샾의 모양을 저장한 위치를 가진 변수
 sharp_files = [
-    "resources/template/sharp.png"]
+    "resources/template/sharp.png",
+    "resources/template/f-sharp.png",
+    "resources/template/f-sharp2.png"]
+
+# 플랫의 모양을 저장한 위치를 가진 변수
 flat_files = [
     "resources/template/flat-line.png",
-    "resources/template/flat-space.png"]
+    "resources/template/flat-space.png" ]
+key_changer_files = [
+    "resources/template/bar_key_change.png"
+]
+# 2분음표의 모양을 저장한 위치를 가진 변수 (안이 비어있음) - 선의 모양도 같이 저장(맨윗줄, 맨아랫줄은 두꺼움)
 half_files = [
     "resources/template/half-space.png",
     "resources/template/half-note-line.png",
     "resources/template/half-line.png",
     "resources/template/half-note-space.png"]
+
+# 온음표의 모양을 저장한 위치를 가진 변수 (안이 비어있음) - 선의 모양도 같이 저장
 whole_files = [
     "resources/template/whole-space.png",
     "resources/template/whole-note-line.png",
@@ -36,16 +58,19 @@ right_up_tuplet_files = [
     "resources/template/tuplet_ru.png"]
 
 staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]
+g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
-sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files]
+sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files] # 샾 이미지
 flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
+key_changer_imgs = [cv2.imread(key_changer_file, 0) for key_changer_file in key_changer_files]
 half_imgs = [cv2.imread(half_file, 0) for half_file in half_files]
 whole_imgs = [cv2.imread(whole_file, 0) for whole_file in whole_files]
 right_down_tuplet_imgs = [cv2.imread(right_down_tuplet_file, 0) for right_down_tuplet_file in right_down_tuplet_files]
 right_up_tuplet_imgs = [cv2.imread(right_up_tuplet_file, 0) for right_up_tuplet_file in right_up_tuplet_files]
 
 staff_lower, staff_upper, staff_thresh = 50, 150, 0.77
-sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.70
+sharp_lower, sharp_upper, sharp_thresh = 50, 150, 0.65    # thresh original : 0.70
 flat_lower, flat_upper, flat_thresh = 50, 150, 0.77
 quarter_lower, quarter_upper, quarter_thresh = 50, 150, 0.70
 half_lower, half_upper, half_thresh = 50, 150, 0.70
@@ -101,6 +126,78 @@ def deleteMeasures(img):
             k = 0
             for h in range(np.size(img,1)):
                 img[i, h] = 255
+
+def find_g_clef(measure_img, g_clef_templates, bass_clef_templates):
+    '''
+    악보 이미지에서 음자리표 찾아 높은음자리표면 True를 반환하는 함수
+    '''
+    
+    is_g_clef = True   # 높은음자리인지 판단. false면 낮은음자리표
+
+    g_clef_lower, g_clef_upper, g_clef_thresh = 20, 150, 0.45
+    bass_clef_lower, bass_clef_upper, bass_clef_thresh = 20, 150, 0.65
+
+    # 높은음자리표 매칭
+    print("Matching g_clef image...")
+    g_clef_recs = locate_images(measure_img, g_clef_imgs, g_clef_lower, g_clef_upper, g_clef_thresh)
+    
+    print("Merging g_clef image results...")
+    g_clef_recs = merge_recs([j for i in g_clef_recs for j in i], 0.5)
+    g_clef_recs_img = measure_img.copy()
+    for r in g_clef_recs:
+        r.draw(g_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('g_clef_recs_img.png', g_clef_recs_img)
+    open_file('g_clef_recs_img.png')
+
+    # 낮은음자리표 매칭
+    print("Matching bass_clef image...")
+    bass_clef_recs = locate_images(measure_img, bass_clef_imgs, bass_clef_lower, bass_clef_upper, bass_clef_thresh)
+
+    print("Merging bass_clef image results...")
+    bass_clef_recs = merge_recs([j for i in bass_clef_recs for j in i], 0.5)
+    bass_clef_recs_img = measure_img.copy()
+    for r in bass_clef_recs:
+        r.draw(bass_clef_recs_img, (0, 0, 255), 2)
+    cv2.imwrite('bass_clef_recs_img.png', bass_clef_recs_img)
+    open_file('bass_clef_recs_img.png')
+
+    # 낮은음자리표 검출되면 false
+    if len(bass_clef_recs) > 0:
+        is_g_clef = False
+
+    return is_g_clef
+
+def find_key_changer(measure_img, bar_templates):
+    '''
+    악보 이미지에서 조표 바뀌는 두 줄 바를 탐지해 rectangle list를 반환하는 함수
+    '''
+
+    lower, upper, thresh = 50, 150, 0.90
+
+    print("Matching key changing bar image...")
+    key_changer_recs = locate_images(measure_img, bar_templates, lower, upper, thresh)
+    
+    print("Merging key changing bar image results...")
+    key_changer_recs = merge_recs([j for i in key_changer_recs for j in i], 0.5)
+    key_changer_img = measure_img.copy()
+    for r in key_changer_recs:
+        r.draw(key_changer_img, (0, 0, 255), 2)
+    cv2.imwrite('key_changer_recs_img.png', key_changer_img)
+    open_file('key_changer_recs_img.png')
+
+    key_changer_recs.sort(key=lambda r: r.x)
+
+    return key_changer_recs
+
+def locate_images(img, templates, start, stop, threshold): # 오선의 위치 찾는 함수
+    locations, scale = fit(img, templates, start, stop, threshold)
+    img_locations = []
+    for i in range(len(templates)):
+        w, h = templates[i].shape[::-1]
+        w *= scale
+        h *= scale
+        img_locations.append([Rectangle(pt[0], pt[1], w, h) for pt in zip(*locations[i][::-1])])
+    return img_locations
 
 def isOcta(img, rec): #꼭 img로 deletemeasure된 이미지 넘겨줄것
     area=rec.w*rec.h
@@ -213,9 +310,12 @@ if __name__ == "__main__":
     cv2.imwrite('flat_recs_img.png', flat_recs_img)
     open_file('flat_recs_img.png')
 
+    # 조표 바꾸는 세로 2줄(||) 매칭
+    key_changer_recs = find_key_changer(img_gray, key_changer_imgs)
+
     print("Matching quarter image...")
     quarter_recs = locate_images(img_gray, quarter_imgs, quarter_lower, quarter_upper, quarter_thresh)
-
+    
     print("Merging quarter image results...")
     quarter_recs = merge_recs([j for i in quarter_recs for j in i], 0.5)
     quarter_recs_img = img.copy()
@@ -351,6 +451,30 @@ if __name__ == "__main__":
         staffs = [r for r in staff_recs if r.overlap(box) > 0]
         staffs.sort(key=lambda r: r.x)
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
+
+        if len(key_changer_recs) > 0:
+            for bar in key_changer_recs:
+                first_note = staff_notes[0]
+                # 조 바뀜이 시작되는 첫 번째 음표 찾기
+                for note in staff_notes:
+                    if note.rec.x > bar.x:
+                        first_note = note
+
+                key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
+                key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+
+        # 음계 파악
+        key_sharps = []    # 조표의 샾
+        key_flats = []    # 조표의 플랫
+        # x좌표 기준 첫 번째 음표 찾기
+        # 샾의 x좌표와 첫 번째 음표 x좌표 비교해서 작은 샾만 조표로 판단
+        if len(staff_notes) > 0:
+            key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
+            key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+
+        for note in whole_notes:
+            note.set_key(key_sharps, key_flats)
+
         note_group = []
         i = 0
         j = 0
