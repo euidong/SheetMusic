@@ -53,7 +53,7 @@ class Note(object):
         if any(sharp for sharp in key_sharps if sharp.note[0] == self.note[0]):
             self.note += "#"
             self.pitch += 1
-        if any(flat for flat in key_flats if flat.note == self.note):
+        if any(flat for flat in key_flats if flat.note[0] == self.note[0]):
             self.note += "b"
             self.pitch -= 1
 

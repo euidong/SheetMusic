@@ -52,10 +52,10 @@ whole_files = [
     "resources/template/whole-note-line.png",
     "resources/template/whole-line.png",
     "resources/template/whole-note-space.png"]
-
-staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]
-g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
-bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
+right_down_tuplet_files = [
+    "resources/template/tuplet_rd.png"]
+right_up_tuplet_files = [
+    "resources/template/tuplet_ru.png"]
 wholeRest_files = [
     "resources/template/bar-rest.png", #쉼표 이미지
     "resources/template/bar-rest2.png"]
@@ -66,13 +66,17 @@ quarterRest_files=[
 eighthRest_files=[
     "resources/template/eight_rest.png",
     "resources/template/eight_rest2.png"]
-
 replay_end_files = [
     "resources/template/replay_end.png",
     "resources/template/replay_end2.png"] #도돌이표 이미지 추가
 replay_start_files = [
     "resources/template/replay_start.png"]
 
+right_down_tuplet_imgs = [cv2.imread(right_down_tuplet_file, 0) for right_down_tuplet_file in right_down_tuplet_files]
+right_up_tuplet_imgs = [cv2.imread(right_up_tuplet_file, 0) for right_up_tuplet_file in right_up_tuplet_files]
+staff_imgs = [cv2.imread(staff_file, 0) for staff_file in staff_files]
+g_clef_imgs = [cv2.imread(g_clef_file, 0) for g_clef_file in g_clef_files]
+bass_clef_imgs = [cv2.imread(bass_clef_file, 0) for bass_clef_file in bass_clef_files]
 quarter_imgs = [cv2.imread(quarter_file, 0) for quarter_file in quarter_files]
 sharp_imgs = [cv2.imread(sharp_files, 0) for sharp_files in sharp_files] # 샾 이미지
 flat_imgs = [cv2.imread(flat_file, 0) for flat_file in flat_files]
@@ -99,15 +103,19 @@ halfRest_lower, halfRest_upper, halfRest_thresh =50,150,0.80
 quarterRest_lower, quarterRest_upper, quarterRest_thresh =50,150,0.70
 eighthRest_lower, eighthRest_upper,eighthRest_thresh= 50,100,0.85
 
-replay_start_lower, replay_start_upper, replay_start_thresh = 50, 150, 0.70
-replay_end_lower, replay_end_upper, replay_end_thresh = 50, 150, 0.70
+replay_start_lower, replay_start_upper, replay_start_thresh = 50, 150, 0.75
+replay_end_lower, replay_end_upper, replay_end_thresh = 50, 150, 0.75
 
-#줄별로 이미지 분
-def CutMeasures2(img):
+right_down_tuplet_lower, right_down_tuplet_upper, right_down_tuplet_thresh = 50, 150, 0.7
+right_up_tuplet_lower, right_up_tuplet_upper, right_up_tuplet_thresh = 50, 150, 0.7
+
+def CutMeasures(img):
     line = [-1, -1, -1, -1, -1]
     lineSize = [0, 0, 0, 0, 0]
-    l = 0
     measure = []
+    gaplist=[]
+    l = 0
+
     for i in range(np.size(img, 0)):
         count = 0
         for j in range(np.size(img, 1)):
@@ -132,12 +140,13 @@ def CutMeasures2(img):
         elif line[4] != -1:
             gap = line[1] - line[0]
             measure.append(Rectangle(0, line[0] - (gap * 4), np.size(img, 1), line[4] + (gap * 8) - line[0]))
-
+            gaplist.append(gap)
             for m in range(5):
                 line[m] = -1
                 lineSize[m] = 0
             l += 1
-    return measure
+    return measure, gaplist
+
 
 def deleteMeasures(img):
     for i in range(np.size(img, 0)):
@@ -287,12 +296,10 @@ if __name__ == "__main__":
     img = cv2.imread(img_file, 0)
     img_gray = img  # cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.cvtColor(img_gray, cv2.COLOR_GRAY2RGB)
-    ret, img_gray = cv2.threshold(img_gray, 127, 255, cv2.THRESH_BINARY)
+    ret, img_gray = cv2.threshold(img_gray, 200, 255, cv2.THRESH_BINARY)
     img_width, img_height = img_gray.shape[::-1]
 
-    staff_boxes = CutMeasures2(img_gray)
-
-    measures, gaplist = CutMeasures(img_gray)
+    staff_boxes, gaplist = CutMeasures(img_gray)
 
     line_delete_img = cv2.imread(img_file, 0)
     gray_line_delete_img = line_delete_img
@@ -324,7 +331,7 @@ if __name__ == "__main__":
 
     tuplet_recs = merge_recs([j for i in tuplet_recs for j in i], 0.5)
     # 이하는 tuplet matchtemplate결과 4분음표를 잡는 경우가 있어 이를 제거해주는 과정
-    for staff in measures:
+    for staff in staff_boxes:
         staff_tuplet_recs = [r for r in tuplet_recs if staff.y <= r.y and staff.y + staff.h >= r.y]
         staff_quarter_recs = [r for r in quarter_recs if staff.y <= r.y and staff.y + staff.h >= r.y]
         staff_tuplet_recs.sort(key=lambda r: r.x)
@@ -343,7 +350,7 @@ if __name__ == "__main__":
 
     # 이하는 같은 오선 내에서 tuplet과 동일한 x좌표에 있는 quarter대가리를 octa로 분류시켜주는 작업
     octa_recs = []
-    for staff in measures:
+    for staff in staff_boxes:
 
         staff_tuplet_recs = [r for r in tuplet_recs if staff.y <= r.y and staff.y + staff.h >= r.y]
         staff_quarter_recs = [r for r in quarter_recs if staff.y <= r.y and staff.y + staff.h >= r.y]
@@ -366,12 +373,12 @@ if __name__ == "__main__":
                 octa_recs.append(staff_quarter_recs[i])
 
     # 이하는 이어진 8분음표가 아닌 홀로 떨어져있는 진짜 8분음표처럼 생긴애를 quarter중에 분류하는 작업
-    for i in range(len(measures)):
+    for i in range(len(staff_boxes)):
         # cnt+=1
         # prtline="Staff{} ".format(str(cnt))
-        middle_x, staff_middle_y = measures[i].middle
+        middle_x, staff_middle_y = staff_boxes[i].middle
         # copy_copy_img=copy_img.copy()
-        staff_quarter_recs = [r for r in quarter_recs if measures[i].y <= r.y and measures[i].y + measures[i].h >= r.y]
+        staff_quarter_recs = [r for r in quarter_recs if staff_boxes[i].y <= r.y and staff_boxes[i].y + staff_boxes[i].h >= r.y]
         staff_quarter_recs.sort(key=lambda r: r.x)
         # tempcnt=0
         for quarter in staff_quarter_recs:
@@ -414,9 +421,10 @@ if __name__ == "__main__":
                         for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         staff_flats = [Note(r, "flat", box)
                        for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        quarter_notes = [Note(r, "4,8", box, staff_sharps, staff_flats)
+        quarter_notes = [Note(r, "4", box, staff_sharps, staff_flats)
                          for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        
+        octa_notes= [Note(r, "8", box, staff_sharps, staff_flats)
+                         for r in octa_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         half_notes = [Note(r, "2", box, staff_sharps, staff_flats)
                       for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         whole_notes = [Note(r, "1", box, staff_sharps, staff_flats)
@@ -439,7 +447,7 @@ if __name__ == "__main__":
         replay_end = [Note(r, "3", box)
                   for r in replay_end_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         
-        staff_notes = quarter_notes + half_notes + whole_notes + replay_start + replay_end # + quarter_rests + half_rests + whole_rests + eighth_rests 
+        staff_notes = octa_notes + quarter_notes + half_notes + whole_notes + replay_start + replay_end # + quarter_rests + half_rests + whole_rests + eighth_rests 
         staff_notes.sort(key=lambda n: n.rec.x)
         
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
@@ -464,15 +472,12 @@ if __name__ == "__main__":
             key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
             key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
 
-        for note in whole_notes:
-            note.set_key(key_sharps, key_flats)
+        for i in range(len(staff_notes)):
+            staff_notes[i].set_key(key_sharps, key_flats)
 
-        note_group = []
         i = 0
         j = 0
 
-        
-        
         i = 0
         while (i < len(staff_notes)):
                 note_group.append(staff_notes[i])
@@ -554,10 +559,6 @@ if __name__ == "__main__":
         else:
             print([note.sym])
 
-
-
-
-
     midi = MIDIFile(1)
 
     track = 0
@@ -576,8 +577,10 @@ if __name__ == "__main__":
                 duration = 4
             elif note_type == "2":
                 duration = 2
-            elif note_type == "4,8":
-                duration = 1 if len(note_group) == 1 else 0.5
+            elif note_type == "4":
+                duration = 1
+            elif note_type == "8":
+                duration = 0.5
             pitch = note.pitch
             midi.addNote(track, channel, pitch, time, duration, volume)
             time += duration
