@@ -404,13 +404,12 @@ if __name__ == "__main__":
                         octa_recs.append(quarter)
     half_recs = match_and_merge(img_gray, half_imgs, half_lower, half_upper, half_thresh)
     whole_recs = match_and_merge(img_gray, whole_imgs, whole_lower, whole_upper, whole_thresh)
-    '''
     # rest
     wholeRest_recs = match_and_merge(img_gray, wholeRest_imgs, wholeRest_lower, wholeRest_upper, wholeRest_thresh)
     halfRest_recs = match_and_merge(img_gray, halfRest_imgs, halfRest_lower, halfRest_upper, halfRest_thresh)
     quarterRest_recs = match_and_merge(img_gray, quarterRest_imgs, quarterRest_lower, quarterRest_upper,quarterRest_thresh)
     eighthRest_recs = match_and_merge(img_gray, eighthRest_imgs, eighthRest_lower, eighthRest_upper,eighthRest_thresh)
-    '''
+
     # replay
     replay_start_recs = match_and_merge(img_gray, replay_start_imgs, replay_start_lower, replay_start_upper, replay_start_thresh)
     replay_end_recs = match_and_merge(img_gray, replay_end_imgs, replay_end_lower, replay_end_upper, replay_end_thresh)
@@ -429,8 +428,6 @@ if __name__ == "__main__":
                       for r in half_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         whole_notes = [Note(r, "1", box, staff_sharps, staff_flats)
                        for r in whole_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-
-        '''
         whole_rests = [Note(r, "-1", box)
                        for r in wholeRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         half_rests = [Note(r, "-2", box)
@@ -439,7 +436,6 @@ if __name__ == "__main__":
                          for r in quarterRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         eighth_rests = [Note(r, "-8", box)
                         for r in eighthRest_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        '''
 
         #note형으로 추가
         replay_start = [Note(r, "-0", box)
@@ -447,7 +443,7 @@ if __name__ == "__main__":
         replay_end = [Note(r, "3", box)
                   for r in replay_end_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         
-        staff_notes = octa_notes + quarter_notes + half_notes + whole_notes + replay_start + replay_end # + quarter_rests + half_rests + whole_rests + eighth_rests 
+        staff_notes = octa_notes + quarter_notes + half_notes + whole_notes + replay_start + replay_end + quarter_rests + half_rests + whole_rests + eighth_rests 
         staff_notes.sort(key=lambda n: n.rec.x)
         
         note_color = (randint(0, 255), randint(0, 255), randint(0, 255))
