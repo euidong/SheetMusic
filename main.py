@@ -225,7 +225,7 @@ if __name__ == "__main__":
     for box in staff_boxes:
         staff_sharps = [Note(r, "sharp", box)
                         for r in sharp_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
-        staff_flats = [Note(r, "flat", box)
+        staff_flats =[Note(r, "flat", box)
                        for r in flat_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
         quarter_notes = [Note(r, "4,8", box)
                          for r in quarter_recs if abs(r.middle[1] - box.middle[1]) < box.h * 5.0 / 8.0]
@@ -271,7 +271,6 @@ if __name__ == "__main__":
     for note in note_group:
         note.set_key(isGclef, key_sharps, staff_sharps, staff_flats)
 
-
     for r in staff_boxes:
         r.draw(img, (0, 0, 255), 2)
     for r in sharp_recs:
@@ -282,6 +281,7 @@ if __name__ == "__main__":
 
     cv2.imwrite('res.png', img)
     open_file('res.png')
+
 
 
     for note in note_group:
@@ -298,7 +298,7 @@ if __name__ == "__main__":
     volume = 100
 
     midi.addTrackName(track, time, "Track")
-    midi.addTempo(track, time, 140)
+    midi.addTempo(track, time, 130)
 
 
     duration = None

@@ -35,9 +35,9 @@ g_note_defs = {
     17: ("g2", 43),
 }
 b_note_defs ={   #b,c / e,f
-    -12: ("c5", 71),
-    -11: ("b4", 70),
-    -10: ("a4", 68),
+    -12: ("c5", 72),
+    -11: ("b4", 71),
+    -10: ("a4", 69),
     -9: ("g4", 67),
     -8: ("f4", 65),
     -7: ("e4", 64),
@@ -81,119 +81,77 @@ class Note (object):
             note_def = g_note_defs[int((self.height / note_step + 0.5) - 5)]
         else:  # 낮은 음자리표
             note_def = b_note_defs[int((self.height / note_step + 0.5) - 5)]
-        if (len(key_sharps) == 0 and len(key_flats) == 0):
-            self.note = note_def[0]
-            self.pitch = note_def[1]
-        else:
+        self.note = note_def[0]
+        self.pitch = note_def[1]
+        if len(key_sharps) > 0 :
             if len(key_sharps) == 1:
                 # 사장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 12)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 2:
                 # 라장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 8)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 3:
                 # 가장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 14)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0 or 7:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 4:
                 # 마장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 9)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0 or 7 or 2:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 5:
                 # 나장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 4)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0 or 7 or 2 or 9:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 6:
                 # 올림바장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 10)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0 or 7 or 2 or 9 or 4:
                     self.note += "#"
                     self.pitch += 1
             elif len(key_sharps) == 7:
                 # 올림다장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 5)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 5 or 0 or 7 or 2 or 9 or 4 or 11:
                     self.note += "#"
                     self.pitch += 1
+        elif len(key_flats) > 0:
             if len(key_flats) == 1:
                 # 바장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 10)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11:
                     self.note += "b"
                     self.pitch -= 1
             elif len(key_flats) == 2:
                 # 내림나장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 4)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4:
                     self.note += "b"
                     self.pitch -= 1
             elif len(key_flats) == 3:
                 # 내림마장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 9)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4 or 9:
                     self.note += "b"
                     self.pitch -= 1
             elif len(key_flats) == 4:
                 # 내림가장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 14)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4 or 9 or 2:
                     self.note += "b"
                     self.pitch -= 1
             elif len(key_flats) == 5:
                 # 내림라장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 7)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4 or 9 or 2 or 7:
                     self.note += "b"
                     self.pitch -= 1
             elif len(key_flats) == 6:
                 # 내림사장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 12)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4 or 9 or 2 or 7 or 0:
                     self.note += "b"
                     self.pitch -= 1
-            elif len(key_flats) == 0:
+            elif len(key_flats) == 7:
                 # 내림다장조
-                note_def = g_note_defs[int((self.height / note_step + 0.5) - 5)]
-                self.note = note_def[0]
-                self.pitch = note_def[1]
                 if self.pitch % 12 == 11 or 4 or 9 or 2 or 7 or 0 or 5:
                     self.note += "b"
                     self.pitch -= 1

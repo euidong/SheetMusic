@@ -46,19 +46,14 @@
       <change beforePath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/note.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/best_fit.py" beforeDir="false" afterPath="$PROJECT_DIR$/best_fit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/note.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.mid" beforeDir="false" afterPath="$PROJECT_DIR$/output.mid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res.png" beforeDir="false" afterPath="$PROJECT_DIR$/res.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/newquarter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/newquarter2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/newquarter3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/newquarter4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/staff.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/staff2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/staff3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/template/template.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/samples/2.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/samples/2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/samples/3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/samples/Moonlight Shadow Flauta-1.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-824">
-              <caret line="272" selection-start-line="272" selection-end-line="272" />
+            <state relative-caret-position="244">
+              <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
               <folding>
                 <element signature="e#256#294#0" />
                 <element signature="e#326#369#0" />
@@ -95,11 +90,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/note.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1432">
-              <caret line="115" column="40" lean-forward="true" selection-start-line="115" selection-start-column="40" selection-end-line="115" selection-end-column="40" />
+            <state relative-caret-position="221">
+              <caret line="166" selection-start-line="166" selection-end-line="166" />
               <folding>
-                <element signature="e#67#669#0" />
-                <element signature="e#514#977#0" />
+                <element signature="e#2011#3331#0" />
+                <element signature="e#3377#4704#0" />
+                <element signature="e#3417#3537#0" />
               </folding>
             </state>
           </provider>
@@ -174,8 +170,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1" />
-    <option name="y" value="4" />
+    <option name="y" value="3" />
     <option name="width" value="1878" />
     <option name="height" value="1032" />
   </component>
@@ -185,7 +180,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -197,6 +191,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -235,7 +230,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="C:\opencv\SheetVision-master\resources\samples\sheet.jpg" />
+      <option name="PARAMETERS" value="C:\opencv\SheetVision-master\resources\samples\fire.jpg" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -266,10 +261,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="3" width="1252" height="688" extended-state="0" />
+    <frame x="0" y="2" width="1252" height="688" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74820143" visible="true" weight="0.11101974" />
-      <window_info id="Structure" order="1" sideWeight="0.25179857" side_tool="true" visible="true" weight="0.11101974" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74640286" visible="true" weight="0.11101974" />
+      <window_info id="Structure" order="1" sideWeight="0.2535971" side_tool="true" visible="true" weight="0.11101974" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49960285" visible="true" weight="0.3285968" />
@@ -355,19 +350,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/note.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1432">
-          <caret line="115" column="40" lean-forward="true" selection-start-line="115" selection-start-column="40" selection-end-line="115" selection-end-column="40" />
+        <state relative-caret-position="221">
+          <caret line="166" selection-start-line="166" selection-end-line="166" />
           <folding>
-            <element signature="e#67#669#0" />
-            <element signature="e#514#977#0" />
+            <element signature="e#2011#3331#0" />
+            <element signature="e#3377#4704#0" />
+            <element signature="e#3417#3537#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-824">
-          <caret line="272" selection-start-line="272" selection-end-line="272" />
+        <state relative-caret-position="244">
+          <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
           <folding>
             <element signature="e#256#294#0" />
             <element signature="e#326#369#0" />
