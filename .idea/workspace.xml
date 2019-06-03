@@ -66,8 +66,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
+            <state relative-caret-position="130">
+              <caret line="263" selection-start-line="263" selection-end-line="264" />
               <folding>
                 <element signature="e#256#294#0" />
                 <element signature="e#326#369#0" />
@@ -90,13 +90,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/note.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="166" selection-start-line="166" selection-end-line="166" />
-              <folding>
-                <element signature="e#2011#3331#0" />
-                <element signature="e#3377#4704#0" />
-                <element signature="e#3417#3537#0" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="74" selection-start-line="74" selection-end-line="74" />
             </state>
           </provider>
         </entry>
@@ -180,18 +175,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SheetVision-master" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SheetVision-master" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,9 +247,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="2" width="1252" height="688" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.74640286" visible="true" weight="0.11101974" />
-      <window_info id="Structure" order="1" sideWeight="0.2535971" side_tool="true" visible="true" weight="0.11101974" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7446043" visible="true" weight="0.11101974" />
+      <window_info id="Structure" order="1" sideWeight="0.25539568" side_tool="true" visible="true" weight="0.11101974" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49960285" visible="true" weight="0.3285968" />
@@ -350,20 +336,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/note.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="166" selection-start-line="166" selection-end-line="166" />
-          <folding>
-            <element signature="e#2011#3331#0" />
-            <element signature="e#3377#4704#0" />
-            <element signature="e#3417#3537#0" />
-          </folding>
+        <state relative-caret-position="240">
+          <caret line="74" selection-start-line="74" selection-end-line="74" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="272" column="22" selection-start-line="272" selection-start-column="22" selection-end-line="272" selection-end-column="22" />
+        <state relative-caret-position="130">
+          <caret line="263" selection-start-line="263" selection-end-line="264" />
           <folding>
             <element signature="e#256#294#0" />
             <element signature="e#326#369#0" />
