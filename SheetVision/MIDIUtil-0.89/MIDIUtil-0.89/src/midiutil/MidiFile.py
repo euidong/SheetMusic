@@ -152,8 +152,8 @@ class MIDITrack:
                     return True
             else:
                     return False
-                    
-            
+
+
     class tempo(GenericEvent):
         '''A class that encapsulates a tempo meta-event
         '''

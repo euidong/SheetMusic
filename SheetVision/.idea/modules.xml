@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SheetVision.iml" filepath="$PROJECT_DIR$/.idea/SheetVision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SheetVision-master.iml" filepath="$PROJECT_DIR$/.idea/SheetVision-master.iml" />
     </modules>
   </component>
 </project>
