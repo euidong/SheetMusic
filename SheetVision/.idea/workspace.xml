@@ -1,60 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/main.py" line="9" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="770c2bae-3f7a-4f5c-a5df-fa2cdd035447" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.idea/#17cuttingMeasure.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/best_fit.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/flat_recs_img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/half_recs_img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/note.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/Moonlight Shadow Flauta-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/VarnattstankarvidFridasruta.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/fire.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/lost.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/races.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/samples/sheet.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/bar-rest.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/f-sharp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/flat-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/flat-space.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/half-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/half-note-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/half-note-space.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/half-space.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/quarter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/sharp.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/solid-note.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/staff.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/staff2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/staff3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/whole-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/whole-note-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/whole-note-space.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/#17cuttingMeasure/resources/template/whole-space.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetMusic/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SheetMusic/사용할 opensource/SheetVision-master/note.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/note.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.mid" beforeDir="false" afterPath="$PROJECT_DIR$/output.mid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res.png" beforeDir="false" afterPath="$PROJECT_DIR$/res.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/samples/2.JPG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/samples/2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/samples/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/samples/Moonlight Shadow Flauta-1.png" beforeDir="false" />
-    </list>
+    <list default="true" id="a0035633-0144-40ba-a2e2-5183200173f1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,22 +13,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="263" selection-start-line="263" selection-end-line="264" />
+            <state relative-caret-position="214">
+              <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
               <folding>
-                <element signature="e#256#294#0" />
-                <element signature="e#326#369#0" />
-                <element signature="e#386#466#0" />
-                <element signature="e#481#595#0" />
-                <element signature="e#609#691#0" />
-                <element signature="e#705#878#0" />
-                <element signature="e#893#1070#0" />
-                <element signature="e#1089#1169#0" />
-                <element signature="e#1187#1228#0" />
-                <element signature="e#1247#1291#0" />
-                <element signature="e#1309#1393#0" />
-                <element signature="e#1409#1483#0" />
-                <element signature="e#3165#4128#0" />
+                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -90,8 +25,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/note.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="74" selection-start-line="74" selection-end-line="74" />
+            <state relative-caret-position="171">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -105,89 +40,39 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>whole_notes</find>
-      <find>note_group</find>
-      <find>addtempo</find>
-      <find>note_step</find>
-      <find>tick</find>
-      <find>addNoteByNumber</find>
-      <find>midifile</find>
-      <find>addNote</find>
-      <find>channel</find>
-      <find>copy</find>
-      <find>replay</find>
-      <find>find_g</find>
-    </findStrings>
-  </component>
-  <component name="Git.Settings">
-    <option name="ROOT_SYNC" value="SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/../SheetMusic" value="rest" />
-      </map>
-    </option>
-    <favorite-branches>
-      <branch-storage>
-        <map>
-          <entry type="LOCAL">
-            <value>
-              <list>
-                <branch-info repo="$PROJECT_DIR$/../SheetMusic" source="rest" />
-              </list>
-            </value>
-          </entry>
-        </map>
-      </branch-storage>
-    </favorite-branches>
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rectangle.py" />
-        <option value="$USER_HOME$/Desktop/SheetVision_master/main.py" />
-        <option value="$PROJECT_DIR$/resources/rest.py" />
-        <option value="$PROJECT_DIR$/rest.py" />
-        <option value="$PROJECT_DIR$/best_fit.py" />
-        <option value="$PROJECT_DIR$/MIDIUtil-0.89/MIDIUtil-0.89/src/midiutil/MidiFile.py" />
-        <option value="$PROJECT_DIR$/note.py" />
         <option value="$PROJECT_DIR$/main.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-      </list>
-    </option>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="949" />
+    <option name="width" value="980" />
+    <option name="height" value="1031" />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="3" />
-    <option name="width" value="1878" />
-    <option name="height" value="1032" />
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SheetVision" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SheetVision" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\opencv\SheetVision-master" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -203,7 +88,7 @@
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="SheetVision-master" />
+      <module name="SheetVision" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -215,7 +100,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="C:\opencv\SheetVision-master\resources\samples\fire.jpg" />
+      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -226,9 +111,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -237,97 +119,51 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="770c2bae-3f7a-4f5c-a5df-fa2cdd035447" name="Default Changelist" comment="" />
-      <created>1557396640484</created>
+      <changelist id="a0035633-0144-40ba-a2e2-5183200173f1" name="Default Changelist" comment="" />
+      <created>1559280519728</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1557396640484</updated>
+      <updated>1559280519728</updated>
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="2" width="1252" height="688" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7446043" visible="true" weight="0.11101974" />
-      <window_info id="Structure" order="1" sideWeight="0.25539568" side_tool="true" visible="true" weight="0.11101974" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49960285" visible="true" weight="0.3285968" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49483716" weight="0.20503597" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49883178" weight="0.39566928" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49649534" weight="0.32874015" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50516284" side_tool="true" weight="0.30728242" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10087371" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24305004" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3104126" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3988212" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32978722" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32978722" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.33333334" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32978722" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout-to-restore>
+    </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/SheetVision-master/main.py" />
-    <entry file="file://$USER_HOME$/Desktop/SheetVision_master/main.py" />
-    <entry file="file://$PROJECT_DIR$/resources/rest" />
-    <entry file="file://$PROJECT_DIR$/resources/rest.py" />
-    <entry file="file://$PROJECT_DIR$/rest.py" />
-    <entry file="file://$PROJECT_DIR$/best_fit.py">
+    <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="703">
-          <caret line="39" column="21" selection-start-line="39" selection-start-column="21" selection-end-line="39" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MIDIUtil-0.89/MIDIUtil-0.89/src/midiutil/MidiFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="738" selection-start-line="738" selection-end-line="738" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/matplotlib/axes/_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="1717" selection-start-line="1717" selection-end-line="1717" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/midiutil/MidiFile.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-920">
-          <caret line="851" selection-start-line="851" selection-end-line="851" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rectangle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="214">
+          <caret line="193" column="34" selection-start-line="193" selection-start-column="34" selection-end-line="193" selection-end-column="34" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -336,30 +172,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/note.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="263" selection-start-line="263" selection-end-line="264" />
-          <folding>
-            <element signature="e#256#294#0" />
-            <element signature="e#326#369#0" />
-            <element signature="e#386#466#0" />
-            <element signature="e#481#595#0" />
-            <element signature="e#609#691#0" />
-            <element signature="e#705#878#0" />
-            <element signature="e#893#1070#0" />
-            <element signature="e#1089#1169#0" />
-            <element signature="e#1187#1228#0" />
-            <element signature="e#1247#1291#0" />
-            <element signature="e#1309#1393#0" />
-            <element signature="e#1409#1483#0" />
-            <element signature="e#3165#4128#0" />
-          </folding>
+        <state relative-caret-position="171">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
         </state>
       </provider>
     </entry>

@@ -29,6 +29,6 @@ class Rectangle(object):
         return Rectangle(x, y, w, h)
 
     def draw(self, img, color, thickness):
-        pos = ((int)(self.x), (int)(self.y)) #position
+        pos = ((int)(self.x), (int)(self.y))
         size = ((int)(self.x + self.w), (int)(self.y + self.h))
         cv2.rectangle(img, pos, size, color, thickness)
