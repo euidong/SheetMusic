@@ -24,6 +24,8 @@ bass_clef_files=[
 # 음표의 모양을 저장한 위치를 가진 변수(안이 꽉 찬 모양)
 quarter_files = [
     "resources/template/quarter.png",
+    "resources/template/quarter_2.png",
+    "resources/template/quarter_3.png",
     "resources/template/solid-note.png"]
 
 # 샾의 모양을 저장한 위치를 가진 변수
@@ -94,7 +96,7 @@ eighthRest_imgs = [cv2.imread(eighthRest_file,0) for eighthRest_file in eighthRe
 replay_start_imgs = [cv2.imread(replay_start_file, 0) for replay_start_file in replay_start_files]#replay추가
 replay_end_imgs = [cv2.imread(replay_end_file, 0) for replay_end_file in replay_end_files]
 flat_lower, flat_upper, flat_thresh = 50, 150, 0.77
-quarter_lower, quarter_upper, quarter_thresh = 50, 100, 0.77
+quarter_lower, quarter_upper, quarter_thresh = 50, 100, 0.70
 half_lower, half_upper, half_thresh = 50, 150, 0.70
 whole_lower, whole_upper, whole_thresh = 50, 150, 0.70
 
@@ -240,17 +242,6 @@ def isOcta(img, rec): #꼭 img로 deletemeasure된 이미지 넘겨줄것
                 cnt+=1
     return cnt/area>=0.16
 
-def locate_images(img, templates, start, stop, threshold):
-    locations, scale = fit(img, templates, start, stop, threshold)
-    img_locations = []
-    for i in range(len(templates)):
-        w, h = templates[i].shape[::-1]
-        w *= scale
-        h *= scale
-        img_locations.append([Rectangle(pt[0], pt[1], w, h) for pt in zip(*locations[i][::-1])])
-    return img_locations
-
-
 def merge_recs(recs, threshold):
     filtered_recs = []
     while len(recs) > 0:
@@ -289,6 +280,7 @@ def match_and_merge(temp_img, temp_imgs, temp_lower, temp_upper, temp_thresh):
     cv2.imwrite('result.png', temp_recs_img)
     open_file('result.png')
     '''
+    
     return temp_recs
 
 if __name__ == "__main__":
@@ -467,9 +459,12 @@ if __name__ == "__main__":
         if len(staff_notes) > 0:
             key_sharps = [sharp for sharp in staff_sharps if sharp.rec.x < staff_notes[0].rec.x]
             key_flats = [flat for flat in staff_flats if flat.rec.x < staff_notes[0].rec.x]
+        
+        #음자리표 결정
+        isGclef = find_g_clef(img_gray, g_clef_files, bass_clef_files)
 
         for i in range(len(staff_notes)):
-            staff_notes[i].set_key(key_sharps, key_flats)
+            staff_notes[i].set_key(isGclef, key_sharps, key_flats, staff_sharps, staff_flats)
 
         i = 0
         j = 0
@@ -580,7 +575,6 @@ if __name__ == "__main__":
             pitch = note.pitch
             midi.addNote(track, channel, pitch, time, duration, volume)
             time += duration
-
         else:
             if note_type == "-1":
                 duration = 4
@@ -594,7 +588,7 @@ if __name__ == "__main__":
             midi.addNote(track, channel, pitch, time, duration, 0)
             time += duration
 
-    midi.addNote(track, channel, pitch, time, 4, 0)
+    # midi.addNote(track, channel, pitch, time, 4, 0)
     # And write it to disk.
     binfile = open("output.mid", 'wb')
     midi.writeFile(binfile)

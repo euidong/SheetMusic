@@ -1,5 +1,4 @@
 import cv2
-import matplotlib.pyplot as plt # 그래프를 그려주는 라이브러리
 import numpy as np # 다차원 배열 객체를 다루는 라이브러리
 
 def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미지, 찾고 싶은 이미지, 50, 150, 0.77)
@@ -38,11 +37,9 @@ def fit(img, templates, start_percent, stop_percent, threshold): # (전체이미
             best_location_count = location_count
             best_locations = locations
             best_scale = scale
-            plt.axis([0, 2, 0, best_location_count])
         elif (location_count < best_location_count):
             pass
             
-    plt.close()
 
     return best_locations, best_scale
 

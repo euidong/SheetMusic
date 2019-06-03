@@ -12,8 +12,8 @@
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
-    <CommandLineArguments>.\resources\samples\sheet.jpg</CommandLineArguments>
-    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <CommandLineArguments>.\resources\samples\Farm.jpg</CommandLineArguments>
+    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -130,6 +130,7 @@
     <Content Include="resources\resos\8\non-lyric\6.jpg" />
     <Content Include="resources\resos\8\non-lyric\7.jpg" />
     <Content Include="resources\resos\8\non-lyric\8.jpg" />
+    <Content Include="resources\samples\bom.jpg" />
     <Content Include="resources\samples\fire.jpg" />
     <Content Include="resources\samples\lost.jpg" />
     <Content Include="resources\samples\Moonlight Shadow Flauta-1.png" />
